@@ -246,7 +246,6 @@ button { font: inherit; }
   justify-content: center;
   -webkit-tap-highlight-color: transparent;
 }
-}
 .direct-play-btn-circle {
   display: inline-flex; align-items: center; justify-content: center;
   width: 90px; height: 90px; border-radius: 50%;
