@@ -236,6 +236,11 @@ async function initBookApp() {
   btnEnterBook.onclick = () => {
     welcomeOverlay.classList.add("hidden");
 
+    // Đảm bảo trang hiển thị luôn bắt đầu từ trang mở đầu (idx = 0)
+    idx = 0;
+    turn = null;
+    if (typeof paint === "function") paint();
+
     // Thử kích hoạt chế độ xoay ngang tự động bằng Web Screen Orientation API (Android / PWA)
     if (screen.orientation && screen.orientation.lock) {
       screen.orientation.lock("landscape").catch(() => {});
@@ -341,10 +346,15 @@ async function initBookApp() {
     url: p.type === "image" ? (p.file.startsWith("/") ? p.file : `/${p.file}`) : "/blank-book.png"
   }));
 
-  // Render Trang 1 trước để mở sách tức thì trong 0.05 giây
+  // Render Trang 1 (Trang mở đầu) trước để mở sách tức thì trong 0.05 giây
   try {
     const page1Url = await renderer.renderTextPage(rawPagesData[0]);
-    if (page1Url) PAGES[0].url = page1Url;
+    if (page1Url) {
+      PAGES[0].url = page1Url;
+      if (idx === 0 && !turn && typeof paint === "function") {
+        paint();
+      }
+    }
   } catch (e) {
     console.warn("Lỗi render trang 1:", e);
   }
@@ -879,33 +889,18 @@ async function initBookApp() {
   function endIntro() {
     introOn = false; wrap.classList.remove("intro", "b2");
   }
-  function riffleStep() {
-    const s = riffle[riffleAt];
-    wrap.classList.toggle("b2", s.bell > 0.55);
-    startTurn("next", 0);
-    tweenTo(1, s.dur, () => {
-      idx = turn.to; turn = null;
-      riffleAt++;
-      if (introOn && riffleAt < riffle.length) { paint(); riffleStep(); }
-      else { endIntro(); paint(); }
-    });
-  }
   function startIntro() {
-    const coarse = matchMedia("(max-width: 640px), (pointer: coarse)").matches;
-    if (coarse || REDUCED || Q.has("nointro")) { idx = LAND; paint(); return; }
-    const steps = Math.min(M, 3);
-    riffle = [];
-    for (let r = 0; r < steps; r++) {
-      const bell = Math.sin(Math.PI * (r / (steps - 1)));
-      riffle.push({ bell: bell, dur: 0.28 - 0.16 * bell });
-    }
-    riffleAt = 0; introOn = true; wrap.classList.add("intro");
-    riffleStep();
+    // Luôn luôn hiển thị trang đầu tiên là trang mở đầu (idx = 0)
+    idx = 0;
+    turn = null;
+    endIntro();
+    paint();
   }
 
+  // Khởi tạo hiển thị trang mở đầu (idx = 0)
+  idx = 0;
   paint();
   applyView();
   syncZoom();
   restLoupe();
-  setTimeout(startIntro, 350);
 }
