@@ -1,0 +1,19 @@
+{
+  "name": "so-tay-tri-an-20-11",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sổ Tay Ký Họa Tri Ân Thầy Cô 20/11 - 100% Frontend 3D Flipbook",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5",
+    "vite": "^8.3.8"
+  }
+}
