@@ -19,22 +19,16 @@ export const TEACHERS_DATA = {
     subject: "Toán Học",
     subjectCode: "MATH",
     teacherName: "Thầy Nghiệp",
-    quote: "Những con số khô khan bỗng hóa thành bài học làm người dưới nét phấn của Thầy Nghiệp.",
+    quote: "Hoa có ngày nở lại, người không hai lần thiếu niên.",
     openingLetter: {
-      title: "Gửi Thầy Nghiệp Người Thầy Môn Toán Kính Yêu",
+      title: "Gửi Thầy Nghiệp Kính Mến",
       date: "Ngày 20 tháng 11 năm 2026",
-      body: `Kính gửi Thầy Nghiệp kính mến,
-
-Trong hành trình trưởng thành của chúng em, những phương trình, định lý và đồ thị từng là những thử thách tưởng chừng không thể vượt qua. Nhưng nhờ sự kiên nhẫn, tận tụy và phong thái giảng bài cuốn hút của Thầy, từng con số vô tri đã trở nên sống động, rèn luyện cho chúng em tư duy logic, sự kiên trì và bản lĩnh trước mọi bài toán khó của cuộc đời.
-
-Nhân ngày Nhà giáo Việt Nam 20/11, chúng em xin gom góp những khoảnh khắc, thước phim kỷ niệm đẹp nhất dưới mái trường này để gửi trọn lòng tri ân sâu sắc nhất tới Thầy!`,
+      body: `Đôi ba lời muốn gửi gắm đến Thầy nhân ngày kỉ niệm 20 tháng 11, có những người sẽ đi qua mùa hạ, tin rằng ánh nắng mùa hạ sẽ chẳng bao giờ tắt, tiếng ve sẽ vang vọng mãi không ngừng, hàng cây vẫn xanh lối và người cùng ta trong mùa hạ ấy sẽ mãi ở bên, nhưng rồi mùa hạ nào cũng phải khép lại, cuộc gặp gỡ nào cũng sẽ phải có hồi kết và thanh xuân, kỉ niệm ngày ấy của chúng ta gói gém trong mùa hạ ấy sẽ đi cùng với cơn gió mùa thu đem ta tới hành trình tiếp theo.`,
       signature: "Tập thể Học trò Kính tặng Thầy Nghiệp"
     },
     closingLetter: {
-      title: "Lời Chúc Tri Ân Thầy Nghiệp",
-      body: `Dẫu mai này đường đời có muôn vàn ẩn số, chúng em vẫn mãi ghi nhớ bài học về sự chính trực và nỗ lực bền bỉ mà Thầy đã truyền dạy.
-
-Kính chúc Thầy Nghiệp luôn dồi dào sức khỏe, tràn đầy niềm vui và giữ mãi ngọn lửa nhiệt huyết để tiếp tục nâng cánh ước mơ cho bao thế hệ học trò tương lai!`,
+      title: "Lời Kết Tri Ân Thầy Nghiệp",
+      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo.`,
       signature: "Mãi nhớ ơn Thầy Nghiệp kính yêu"
     },
     sanTruongCaption: {
@@ -89,23 +83,17 @@ Kính chúc Thầy Nghiệp luôn dồi dào sức khỏe, tràn đầy niềm v
     subject: "Ngữ Văn",
     subjectCode: "LIT",
     teacherName: "Cô Mến",
-    quote: "Từng trang sách mở ra là một chân trời nhân ái và tình yêu thương con người từ lời giảng của Cô Mến.",
+    quote: "Hoa có ngày nở lại, người không hai lần thiếu niên.",
     openingLetter: {
-      title: "Gửi Cô Mến Người Thắp Lửa Tâm Hồn Văn Học",
+      title: "Gửi Cô Mến Kính Yêu",
       date: "Ngày 20 tháng 11 năm 2026",
-      body: `Kính gửi Cô Mến yêu quý,
-
-Mỗi tiết Văn của Cô không đơn thuần là phân tích tác phẩm hay ghi nhớ câu chữ, mà là những chuyến hành trình đưa chúng em vào cội nguồn cảm xúc, dạy chúng em biết rung động trước cái đẹp, biết đồng cảm trước nỗi đau và sống tử tế giữa cuộc đời.
-
-Từng lời giảng trầm ấm, dịu dàng bên khung cửa sổ lớp học của Cô Mến đã nuôi dưỡng tâm hồn chúng em lớn lên từng ngày. Cuốn sổ tay ký họa này là món quà nhỏ chứa đựng biết bao tấm lòng kính yêu chúng em muốn dâng tặng Cô!`,
-      signature: "Những Đứa Con Nhỏ Của Lớp Văn Gửi Cô Mến"
+      body: `Đôi ba lời muốn gửi gắm đến Cô nhân ngày kỉ niệm 20 tháng 11, có những người sẽ đi qua mùa hạ, tin rằng ánh nắng mùa hạ sẽ chẳng bao giờ tắt, tiếng ve sẽ vang vọng mãi không ngừng, hàng cây vẫn xanh lối và người cùng ta trong mùa hạ ấy sẽ mãi ở bên, nhưng rồi mùa hạ nào cũng phải khép lại, cuộc gặp gỡ nào cũng sẽ phải có hồi kết và thanh xuân, kỉ niệm ngày ấy của chúng ta gói gém trong mùa hạ ấy sẽ đi cùng với cơn gió mùa thu đem ta tới hành trình tiếp theo.`,
+      signature: "Tập thể Học trò Kính tặng Cô Mến"
     },
     closingLetter: {
-      title: "Khúc Ca Tri Ân Cô Mến",
-      body: `Cảm ơn Cô Mến đã dạy chúng em cách lắng nghe nhịp đập trái tim và viết nên câu chuyện đời mình bằng sự chân thành, nhân ái.
-
-Kính chúc Cô Mến luôn bình an trong tâm hồn, dồi dào sức khỏe, luôn trẻ trung và tìm thấy niềm hứng khởi vô tận trong từng trang sách, áng văn!`,
-      signature: "Kính yêu và Biết ơn Cô Mến"
+      title: "Lời Kết Tri Ân Cô Mến",
+      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo.`,
+      signature: "Mãi nhớ ơn Cô Mến kính yêu"
     },
     sanTruongCaption: {
       title: "Sân Trường Nắng Vàng - Nơi Thơ Ca Đọng Lại",
@@ -159,23 +147,17 @@ Kính chúc Cô Mến luôn bình an trong tâm hồn, dồi dào sức khỏe, 
     subject: "Tiếng Anh",
     subjectCode: "ENG",
     teacherName: "Cô Nga",
-    quote: "A great teacher inspires hope, ignites the imagination, and instills a love of learning.",
+    quote: "Hoa có ngày nở lại, người không hai lần thiếu niên.",
     openingLetter: {
-      title: "Dear Teacher Nga, With Endless Love",
-      date: "November 20, 2026",
-      body: `Kính gửi Cô Nga kính mến,
-
-Cô Nga không chỉ mang đến cho chúng em ngôn ngữ toàn cầu, mở toang cánh cửa bước ra thế giới rộng lớn, mà còn truyền cảm hứng về sự tự tin, lòng quả cảm để dám ước mơ và khẳng định bản thân mình.
-
-Từ những buổi phát âm vụng về đầu tiên đến khi chúng em tự tin thuyết trình bằng tiếng Anh, Cô Nga luôn kiên nhẫn đồng hành, mỉm cười khích lệ. Chúng em xin gửi gắm trọn vẹn sự biết ơn qua từng bức ảnh kỷ niệm trong cuốn sổ tay này!`,
-      signature: "With Endless Gratitude, Your Students"
+      title: "Gửi Cô Nga Kính Yêu",
+      date: "Ngày 20 tháng 11 năm 2026",
+      body: `Đôi ba lời muốn gửi gắm đến Cô nhân ngày kỉ niệm 20 tháng 11, có những người sẽ đi qua mùa hạ, tin rằng ánh nắng mùa hạ sẽ chẳng bao giờ tắt, tiếng ve sẽ vang vọng mãi không ngừng, hàng cây vẫn xanh lối và người cùng ta trong mùa hạ ấy sẽ mãi ở bên, nhưng rồi mùa hạ nào cũng phải khép lại, cuộc gặp gỡ nào cũng sẽ phải có hồi kết và thanh xuân, kỉ niệm ngày ấy của chúng ta gói gém trong mùa hạ ấy sẽ đi cùng với cơn gió mùa thu đem ta tới hành trình tiếp theo.`,
+      signature: "Tập thể Học trò Kính tặng Cô Nga"
     },
     closingLetter: {
-      title: "Best Wishes For Teacher Nga",
-      body: `Thank you for being more than just a teacher — you are our mentor, our inspiration, and a bright light guiding our dreams.
-
-Kính chúc Cô Nga ngày 20/11 tràn ngập hoa, nụ cười, hạnh phúc và luôn tràn đầy năng lượng tích cực để tiếp tục chắp cánh cho những ước mơ bay xa!`,
-      signature: "Always Remember & Love Teacher Nga"
+      title: "Lời Kết Tri Ân Cô Nga",
+      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo.`,
+      signature: "Mãi nhớ ơn Cô Nga kính yêu"
     },
     sanTruongCaption: {
       title: "Memories Never Fade - Góc Sân Trường Dấu Yêu",
@@ -229,23 +211,17 @@ Kính chúc Cô Nga ngày 20/11 tràn ngập hoa, nụ cười, hạnh phúc và
     subject: "Vật Lý",
     subjectCode: "PHYS",
     teacherName: "Cô Hoan",
-    quote: "Từ định luật vạn vật hấp dẫn đến lực nâng đỡ ấm áp của tình cảm Cô Hoan dành cho học trò.",
+    quote: "Hoa có ngày nở lại, người không hai lần thiếu niên.",
     openingLetter: {
-      title: "Gửi Cô Hoan Người Khơi Nguồn Đam Mê Vật Lý",
+      title: "Gửi Cô Hoan Kính Yêu",
       date: "Ngày 20 tháng 11 năm 2026",
-      body: `Kính gửi Cô Hoan kính mến,
-
-Thế giới Vật lý với những mạch điện, lăng kính, chuyển động và sóng ánh sáng từng làm chúng em choáng ngợp, nhưng nhờ Cô Hoan tận tình chỉ bảo, chúng em nhận ra sự kỳ diệu của vũ trụ và quy luật vận hành của cuộc sống.
-
-Cô dạy chúng em rằng mỗi lực tác động đều có phản lực, và mọi nỗ lực bền bỉ hôm nay đều sẽ tạo nên gia tốc mạnh mẽ đưa chúng em tiến về tương lai. Nhân ngày 20/11, chúng em kính chúc Cô Hoan vạn sự bình an!`,
-      signature: "Tập thể Học sinh Môn Vật Lý Gửi Cô Hoan"
+      body: `Đôi ba lời muốn gửi gắm đến Cô nhân ngày kỉ niệm 20 tháng 11, có những người sẽ đi qua mùa hạ, tin rằng ánh nắng mùa hạ sẽ chẳng bao giờ tắt, tiếng ve sẽ vang vọng mãi không ngừng, hàng cây vẫn xanh lối và người cùng ta trong mùa hạ ấy sẽ mãi ở bên, nhưng rồi mùa hạ nào cũng phải khép lại, cuộc gặp gỡ nào cũng sẽ phải có hồi kết và thanh xuân, kỉ niệm ngày ấy của chúng ta gói gém trong mùa hạ ấy sẽ đi cùng với cơn gió mùa thu đem ta tới hành trình tiếp theo.`,
+      signature: "Tập thể Học trò Kính tặng Cô Hoan"
     },
     closingLetter: {
-      title: "Lời Chúc Tri Ân Cô Hoan",
-      body: `Dù thời gian có trôi theo định luật bảo toàn, tình cảm kính trọng và lòng biết ơn của chúng em dành cho Cô Hoan sẽ luôn là một hằng số không bao giờ thay đổi.
-
-Kính chúc Cô Hoan luôn dồi dào sức khỏe, ngập tràn niềm vui và tiếp tục thắp sáng đam mê khoa học cho các thế hệ mai sau!`,
-      signature: "Học trò Luôn Ghi Ơn Cô Hoan"
+      title: "Lời Kết Tri Ân Cô Hoan",
+      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo.`,
+      signature: "Mãi nhớ ơn Cô Hoan kính yêu"
     },
     sanTruongCaption: {
       title: "Khoảng Trời Kỷ Niệm - Nơi Ánh Nắng Giao Thoa",
@@ -293,23 +269,17 @@ Kính chúc Cô Hoan luôn dồi dào sức khỏe, ngập tràn niềm vui và 
     subject: "Hóa Học",
     subjectCode: "CHEM",
     teacherName: "Thầy Sơn",
-    quote: "Phản ứng diệu kỳ nhất của đời người là tình yêu thương và tri thức Thầy Sơn đã trao tặng.",
+    quote: "Hoa có ngày nở lại, người không hai lần thiếu niên.",
     openingLetter: {
-      title: "Gửi Thầy Sơn Người Tạo Nên Phản Ứng Kỳ Diệu",
+      title: "Gửi Thầy Sơn Kính Mến",
       date: "Ngày 20 tháng 11 năm 2026",
-      body: `Kính gửi Thầy Sơn kính mến,
-
-Trong phòng thí nghiệm Hóa học, dưới bàn tay khéo léo của Thầy Sơn, những dung dịch đổi màu, những phản ứng tỏa nhiệt đã biến thành bài học kỳ thú về sự gắn kết, cân bằng và đổi mới.
-
-Thầy Sơn đã trở thành chất xúc tác tuyệt vời nhất, khơi dậy niềm đam mê khám phá và tinh thần sáng tạo trong mỗi chúng em. Nhân ngày 20/11 thiêng liêng, chúng em kính dâng Thầy Sơn cuốn sổ tay chứa chan kỷ niệm này!`,
-      signature: "Học sinh Môn Hóa Kính Dâng Thầy Sơn"
+      body: `Đôi ba lời muốn gửi gắm đến Thầy nhân ngày kỉ niệm 20 tháng 11, có những người sẽ đi qua mùa hạ, tin rằng ánh nắng mùa hạ sẽ chẳng bao giờ tắt, tiếng ve sẽ vang vọng mãi không ngừng, hàng cây vẫn xanh lối và người cùng ta trong mùa hạ ấy sẽ mãi ở bên, nhưng rồi mùa hạ nào cũng phải khép lại, cuộc gặp gỡ nào cũng sẽ phải có hồi kết và thanh xuân, kỉ niệm ngày ấy của chúng ta gói gém trong mùa hạ ấy sẽ đi cùng với cơn gió mùa thu đem ta tới hành trình tiếp theo.`,
+      signature: "Tập thể Học trò Kính tặng Thầy Sơn"
     },
     closingLetter: {
-      title: "Lời Chúc Tri Ân Thầy Sơn",
-      body: `Cầu chúc cho cuộc sống của Thầy Sơn luôn tràn ngập những phản ứng mang năng lượng tích cực, niềm vui luôn ở trạng thái bão hòa và tình cảm gia đình luôn bền chặt như liên kết cộng hóa trị!
-
-Kính chúc Thầy Sơn ngày Nhà giáo Việt Nam ngập tràn hạnh phúc và luôn dồi dào sức khỏe!`,
-      signature: "Mãi Kính Trọng Và Yêu Quý Thầy Sơn"
+      title: "Lời Kết Tri Ân Thầy Sơn",
+      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo.`,
+      signature: "Mãi nhớ ơn Thầy Sơn kính yêu"
     },
     sanTruongCaption: {
       title: "Sân Trường Trong Kỷ Niệm - Nơi Gắn Kết Tình Thầy Trò",

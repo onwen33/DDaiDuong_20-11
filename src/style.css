@@ -374,6 +374,14 @@ button { font: inherit; }
 
 /* TỐI ƯU GPU CHO THIẾT BỊ DI ĐỘNG (LOẠI BỎ MULTI-PASS FILTER GÂY TỤT FRAME) */
 @media (pointer: coarse), (max-width: 900px) {
+  /* Ẩn mục chọn giáo viên và mã QR trên Mobile để tránh thầy cô xem của nhau */
+  .teacher-selector-wrap,
+  .teacher-select-btn,
+  .teacher-dropdown,
+  .qr-nav-link {
+    display: none !important;
+  }
+
   .sb-cast {
     filter: none !important;
   }
@@ -782,7 +790,12 @@ button { font: inherit; }
   .top:before { display: none; }
   .top .logo-group { font-size: 17px; }
   .top .badge-2011 { width: 24px; height: 24px; font-size: 11px; }
-  .teacher-select-btn { font-size: 12px; padding: 3px 10px; }
+  .teacher-selector-wrap,
+  .teacher-select-btn,
+  .teacher-dropdown,
+  .qr-nav-link {
+    display: none !important;
+  }
   .action-btn { width: 28px; height: 28px; }
   .hero-kicker, .sb-hint, .botany { display: none !important; }
 
