@@ -1,7 +1,6 @@
 /**
  * CANVAS RENDERER CHO CUỐN SỔ TAY 20/11 (1760 × 1240)
- * Tự động vẽ từng trang sách nghệ thuật lên nền blank-book.png
- * Tối ưu: Ảnh & Video hiển thị TO RỘNG, KHÔNG ghi chú chữ rườm rà
+ * Siêu nhẹ, siêu tốc, an toàn tuyệt đối trên Mobile (iOS / Android)
  */
 
 export class BookCanvasRenderer {
@@ -11,64 +10,64 @@ export class BookCanvasRenderer {
     this.isReady = false;
     this.width = 1760;
     this.height = 1240;
-    this.cache = new Map();
   }
 
   async init() {
     if (this.isReady) return;
-    this.blankImg = await this.loadImage(this.blankBookUrl);
+    try {
+      this.blankImg = await this.loadImage(this.blankBookUrl);
+    } catch (e) {
+      console.warn("Không load được blank-book.png, dùng nền fallback:", e);
+    }
+
+    // Đảm bảo không bị treo bởi font chữ trên mobile
     if (document.fonts) {
-      await document.fonts.ready;
+      await Promise.race([
+        document.fonts.ready,
+        new Promise((r) => setTimeout(r, 600))
+      ]).catch(() => {});
     }
     this.isReady = true;
   }
 
+  // Tải ảnh an toàn không bao giờ throw lỗi làm đứng trang
   loadImage(url) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
+      if (!url) return resolve(null);
+      const cleanUrl = url.startsWith("/") || url.startsWith("http") ? url : `/${url}`;
       const img = new Image();
       img.crossOrigin = "anonymous";
       img.onload = () => resolve(img);
-      img.onerror = (e) => reject(new Error(`Failed to load image: ${url}`));
-      img.src = url;
+      img.onerror = () => {
+        console.warn(`Ảnh không tải được: ${cleanUrl}, chuyển sang fallback.`);
+        resolve(null);
+      };
+      img.src = cleanUrl;
     });
   }
 
-  // Lấy video frame đầu tiên làm poster thumbnail
-  async getVideoFrame(videoUrl) {
-    return new Promise((resolve) => {
-      const video = document.createElement("video");
-      video.crossOrigin = "anonymous";
-      video.muted = true;
-      video.playsInline = true;
-      video.preload = "auto";
-      video.src = videoUrl;
-
-      const timeout = setTimeout(() => {
-        resolve(null);
-      }, 4000);
-
-      video.onloadeddata = () => {
-        video.currentTime = 0.5;
-      };
-
-      video.onseeked = () => {
-        clearTimeout(timeout);
-        const cvs = document.createElement("canvas");
-        cvs.width = video.videoWidth || 720;
-        cvs.height = video.videoHeight || 1280;
-        const ctx = cvs.getContext("2d");
-        ctx.drawImage(video, 0, 0, cvs.width, cvs.height);
-        resolve(cvs);
-      };
-
-      video.onerror = () => {
-        clearTimeout(timeout);
-        resolve(null);
-      };
-    });
+  // Vẽ nền sách mở đôi (dùng ảnh blank-book.png hoặc vẽ fallback nền giấy kem nếu ảnh lỗi)
+  drawBookBackground(ctx) {
+    if (this.blankImg) {
+      ctx.drawImage(this.blankImg, 0, 0, this.width, this.height);
+    } else {
+      // Fallback nền giấy kem vintage
+      ctx.fillStyle = "#ece6d8";
+      ctx.fillRect(0, 0, this.width, this.height);
+      ctx.fillStyle = "#fcf9f2";
+      ctx.beginPath();
+      ctx.roundRect(100, 280, 1560, 680, 16);
+      ctx.fill();
+      // Gáy sách giữa
+      const grad = ctx.createLinearGradient(840, 0, 920, 0);
+      grad.addColorStop(0, "rgba(252, 249, 242, 0)");
+      grad.addColorStop(0.5, "rgba(70, 50, 30, 0.45)");
+      grad.addColorStop(1, "rgba(252, 249, 242, 0)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(840, 280, 80, 680);
+    }
   }
 
-  // Hàm chia dòng văn bản tự động (Word Wrap) cho trang Text đầu & cuối
   wrapText(ctx, text, x, y, maxWidth, lineHeight) {
     const paragraphs = text.split("\n");
     let curY = y;
@@ -140,8 +139,7 @@ export class BookCanvasRenderer {
     canvas.height = this.height;
     const ctx = canvas.getContext("2d");
 
-    // 1. Vẽ nền sách trống
-    ctx.drawImage(this.blankImg, 0, 0, this.width, this.height);
+    this.drawBookBackground(ctx);
 
     const { title, date, body, signature, quote, subject, teacherName, isClosing } = pageData;
 
@@ -264,7 +262,7 @@ export class BookCanvasRenderer {
   }
 
   /**
-   * Render Trang Dạng Ảnh & Video: HIỂN THỊ TO RỘNG, KHÔNG CÓ CHỮ CHÚ THÍCH RƯỜM RÀ
+   * Render Trang Dạng Ảnh & Video (Siêu Tốc, KHÔNG load video ngầm gây treo mobile)
    */
   async renderMediaPage(pageData) {
     const canvas = document.createElement("canvas");
@@ -272,30 +270,23 @@ export class BookCanvasRenderer {
     canvas.height = this.height;
     const ctx = canvas.getContext("2d");
 
-    // 1. Vẽ nền sách trống
-    ctx.drawImage(this.blankImg, 0, 0, this.width, this.height);
+    this.drawBookBackground(ctx);
 
-    const { file, type } = pageData;
+    const { file, type, posterImg } = pageData;
 
-    // Load media source (ảnh hoặc frame đầu của video)
+    // Với ảnh thông thường: load ảnh
+    // Với video: load poster image (hoặc ảnh có sẵn) cực nhanh trong 10ms, KHÔNG load video ngầm
     let mediaSource = null;
     if (type === "video") {
-      mediaSource = await this.getVideoFrame(file);
-    } else {
-      try {
-        mediaSource = await this.loadImage(file);
-      } catch (e) {
-        console.warn(`Could not load image: ${file}`, e);
+      if (posterImg) {
+        mediaSource = await this.loadImage(posterImg);
       }
+    } else {
+      mediaSource = await this.loadImage(file);
     }
 
-    // =========================================================================
-    // TÍNH TOÁN KÍCH THƯỚC TO RỘNG TỐI ĐA CHO ẢNH & VIDEO
-    // Vùng trang sách mở: x từ ~140 đến ~1620, y từ ~305 đến ~935 (cao ~630px)
-    // =========================================================================
     const pageTop = 310;
     const pageH = 620;
-
     let targetX, targetY, targetW, targetH;
 
     if (mediaSource) {
@@ -304,7 +295,6 @@ export class BookCanvasRenderer {
       const isLandscape = srcW >= srcH;
 
       if (isLandscape) {
-        // Ảnh / Video ngang: Trải to rộng ở giữa toàn bộ cuốn sách mở đôi (Panorama)
         targetH = Math.min(pageH - 20, 600);
         targetW = Math.min(1420, targetH * (srcW / srcH));
         if (targetW > 1420) {
@@ -314,21 +304,17 @@ export class BookCanvasRenderer {
         targetX = (this.width - targetW) / 2;
         targetY = pageTop + (pageH - targetH) / 2;
       } else {
-        // Ảnh / Video dọc (Portrait): Chiếm chiều cao tối đa, căn giữa trang mở đôi
         targetH = Math.min(pageH - 10, 610);
         targetW = Math.min(760, targetH * (srcW / srcH));
         targetX = (this.width - targetW) / 2;
         targetY = pageTop + (pageH - targetH) / 2;
       }
 
-      // Đổ bóng chân thực cho khung hình
       ctx.save();
       ctx.shadowColor = "rgba(40, 28, 14, 0.35)";
       ctx.shadowBlur = 24;
-      ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 10;
 
-      // Khung viền màu giấy ảnh sang trọng
       const borderPad = 10;
       ctx.fillStyle = "#faf7f0";
       ctx.beginPath();
@@ -342,7 +328,6 @@ export class BookCanvasRenderer {
       ctx.fill();
       ctx.restore();
 
-      // Viền mảnh tinh tế quanh khung
       ctx.strokeStyle = "rgba(160, 135, 105, 0.4)";
       ctx.lineWidth = 1;
       ctx.strokeRect(
@@ -352,52 +337,75 @@ export class BookCanvasRenderer {
         targetH + borderPad * 2
       );
 
-      // Vẽ hình ảnh / frame video vào
       ctx.save();
       ctx.beginPath();
       ctx.roundRect(targetX, targetY, targetW, targetH, 4);
       ctx.clip();
       ctx.drawImage(mediaSource, targetX, targetY, targetW, targetH);
       ctx.restore();
+    } else {
+      // Nếu là Video không có sẵn poster: Vẽ khung poster điện ảnh vintage tuyệt đẹp
+      targetW = 860;
+      targetH = 580;
+      targetX = (this.width - targetW) / 2;
+      targetY = pageTop + (pageH - targetH) / 2;
 
-      // NẾU LÀ VIDEO: Vẽ Nút Play LỚN ĐẸP MẮT Ở CHÍNH GIỮA
-      if (type === "video") {
-        const playCenterX = targetX + targetW / 2;
-        const playCenterY = targetY + targetH / 2;
-        const playR = 48; // Bán kính lớn 48px (đường kính 96px) cực kỳ nổi bật
+      ctx.save();
+      ctx.shadowColor = "rgba(40, 28, 14, 0.35)";
+      ctx.shadowBlur = 24;
+      ctx.shadowOffsetY = 10;
 
-        ctx.save();
-        // Vòng tròn đổ bóng
-        ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-        ctx.shadowBlur = 18;
-        ctx.shadowOffsetY = 4;
+      // Khung poster đen nâu cổ điển
+      ctx.fillStyle = "#221c17";
+      ctx.beginPath();
+      ctx.roundRect(targetX, targetY, targetW, targetH, 12);
+      ctx.fill();
+      ctx.restore();
 
-        // Vòng tròn mờ sang trọng
-        ctx.fillStyle = "rgba(25, 18, 12, 0.72)";
-        ctx.beginPath();
-        ctx.arc(playCenterX, playCenterY, playR, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
+      ctx.strokeStyle = "rgba(212, 175, 115, 0.5)";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(targetX + 12, targetY + 12, targetW - 24, targetH - 24);
 
-        // Viền vàng kim / trắng kem
-        ctx.save();
-        ctx.strokeStyle = "rgba(255, 248, 230, 0.95)";
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(playCenterX, playCenterY, playR, 0, Math.PI * 2);
-        ctx.stroke();
+      // Chữ tiêu đề trên poster
+      ctx.fillStyle = "rgba(245, 235, 220, 0.85)";
+      ctx.font = "italic 26px 'Instrument Serif', Georgia, serif";
+      ctx.textAlign = "center";
+      ctx.fillText("— THƯỚC PHIM KỶ NIỆM 20/11 —", this.width / 2, targetY + 90);
+    }
 
-        // Tam giác nút Play
-        ctx.fillStyle = "#fffaf0";
-        ctx.beginPath();
-        const triSize = 20;
-        ctx.moveTo(playCenterX - triSize * 0.7, playCenterY - triSize);
-        ctx.lineTo(playCenterX + triSize * 1.3, playCenterY);
-        ctx.lineTo(playCenterX - triSize * 0.7, playCenterY + triSize);
-        ctx.closePath();
-        ctx.fill();
-        ctx.restore();
-      }
+    // NẾU LÀ VIDEO: Vẽ Nút Play NỔI BẬT Ở GIỮA
+    if (type === "video") {
+      const playCenterX = this.width / 2;
+      const playCenterY = pageTop + pageH / 2;
+      const playR = 48;
+
+      ctx.save();
+      ctx.shadowColor = "rgba(0, 0, 0, 0.6)";
+      ctx.shadowBlur = 20;
+      ctx.shadowOffsetY = 4;
+
+      ctx.fillStyle = "rgba(20, 14, 10, 0.75)";
+      ctx.beginPath();
+      ctx.arc(playCenterX, playCenterY, playR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.strokeStyle = "rgba(255, 248, 230, 0.95)";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(playCenterX, playCenterY, playR, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.fillStyle = "#fffaf0";
+      ctx.beginPath();
+      const triSize = 20;
+      ctx.moveTo(playCenterX - triSize * 0.7, playCenterY - triSize);
+      ctx.lineTo(playCenterX + triSize * 1.3, playCenterY);
+      ctx.lineTo(playCenterX - triSize * 0.7, playCenterY + triSize);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
     }
 
     return this.canvasToBlobUrl(canvas);
@@ -406,6 +414,9 @@ export class BookCanvasRenderer {
   canvasToBlobUrl(canvas) {
     return new Promise((resolve) => {
       canvas.toBlob((blob) => {
+        if (!blob) {
+          return resolve("");
+        }
         const url = URL.createObjectURL(blob);
         resolve(url);
       }, "image/png");

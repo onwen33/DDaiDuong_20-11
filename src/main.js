@@ -274,11 +274,16 @@ async function initBookApp() {
     subject: teacher.subject
   });
 
+  // Tìm ảnh đầu tiên trong môn học để làm poster dự phòng cho các trang video
+  const firstImgItem = teacher.mediaItems.find((m) => m.type === "image");
+  const fallbackPoster = firstImgItem ? firstImgItem.file : COMMON_ASSETS.sanTruongImg;
+
   // 2. Các trang giữa (Chỉ hiển thị Ảnh & Video to rộng)
   teacher.mediaItems.forEach((m) => {
     rawPagesData.push({
       type: m.type,
       file: m.file,
+      posterImg: m.type === "video" ? fallbackPoster : null,
       title: m.title
     });
   });
@@ -303,24 +308,51 @@ async function initBookApp() {
     subject: teacher.subject
   });
 
-  // RENDER CANVAS CHO MỌI TRANG
+  // RENDER CANVAS CHO MỌI TRANG (Tối ưu Mobile: Khởi tạo ngay lập tức, không để treo giao diện)
   const renderer = new BookCanvasRenderer("/blank-book.png");
-  await renderer.init();
-
-  const PAGES = [];
-  for (let i = 0; i < rawPagesData.length; i++) {
-    const pageItem = rawPagesData[i];
-    let pageBlobUrl = "";
-    if (pageItem.type === "text") {
-      pageBlobUrl = await renderer.renderTextPage(pageItem);
-    } else {
-      pageBlobUrl = await renderer.renderMediaPage(pageItem);
-    }
-    PAGES.push({
-      ...pageItem,
-      url: pageBlobUrl
-    });
+  try {
+    await renderer.init();
+  } catch (e) {
+    console.warn("Init renderer warning:", e);
   }
+
+  // Khởi tạo trước mảng PAGES với URL mặc định để cuốn sách hiện ra ngay lập tức
+  const PAGES = rawPagesData.map((p) => ({
+    ...p,
+    url: p.type === "image" ? (p.file.startsWith("/") ? p.file : `/${p.file}`) : "/blank-book.png"
+  }));
+
+  // Render Trang 1 trước để mở sách tức thì trong 0.05 giây
+  try {
+    const page1Url = await renderer.renderTextPage(rawPagesData[0]);
+    if (page1Url) PAGES[0].url = page1Url;
+  } catch (e) {
+    console.warn("Lỗi render trang 1:", e);
+  }
+
+  // Render ngầm các trang còn lại trong background không làm đơ giao diện mobile
+  (async function renderRemainingPages() {
+    for (let i = 1; i < rawPagesData.length; i++) {
+      try {
+        const item = rawPagesData[i];
+        let url = "";
+        if (item.type === "text") {
+          url = await renderer.renderTextPage(item);
+        } else {
+          url = await renderer.renderMediaPage(item);
+        }
+        if (url) {
+          PAGES[i].url = url;
+          // Nếu người dùng đang xem trang này, cập nhật lại hình ảnh
+          if (idx === i && !turn && typeof paint === "function") {
+            paint();
+          }
+        }
+      } catch (err) {
+        console.warn(`Lỗi render trang ${i}:`, err);
+      }
+    }
+  })();
 
   // =========================================================================
   // ENGINE HIỆU ỨNG LẬT SÁCH 3D 18 STRIP CONG
