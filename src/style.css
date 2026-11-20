@@ -616,3 +616,112 @@ button { font: inherit; }
   .direct-play-btn-circle svg { width: 28px; height: 28px; }
   .sb-hint { font-size: 10.5px; letter-spacing: 0.08em; padding: 0 12px; }
 }
+
+/* ---------------- NHẮC XOAY NGANG MÀN HÌNH (ROTATE DEVICE PROMPT) ---------------- */
+.rotate-prompt-overlay {
+  position: fixed; inset: 0; z-index: 950;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(22, 18, 14, 0.94);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  color: #fff; text-align: center; padding: 24px;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.rotate-prompt-overlay.dismissed {
+  opacity: 0; visibility: hidden; pointer-events: none;
+}
+/* Tự động ẩn hoàn toàn khi điện thoại ĐÃ xoay ngang hoặc trên máy tính */
+@media screen and (orientation: landscape) {
+  .rotate-prompt-overlay { display: none !important; }
+}
+@media screen and (min-width: 900px) {
+  .rotate-prompt-overlay { display: none !important; }
+}
+
+.rotate-prompt-card {
+  max-width: 380px; width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+.rotate-anim-icon {
+  width: 64px; height: 64px; margin-bottom: 4px;
+  animation: rotate-phone-anim 2.5s infinite ease-in-out;
+}
+@keyframes rotate-phone-anim {
+  0%, 20% { transform: rotate(0deg); }
+  50%, 80% { transform: rotate(-90deg); }
+  100% { transform: rotate(0deg); }
+}
+.rotate-prompt-title {
+  font-family: var(--display); font-size: 28px; margin: 0;
+  color: #fffaf0; letter-spacing: 0.02em;
+}
+.rotate-prompt-desc {
+  font-size: 15.5px; line-height: 1.55; color: rgba(255, 255, 255, 0.82); margin: 0;
+}
+.rotate-prompt-actions {
+  display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 8px;
+}
+.rotate-btn-primary {
+  padding: 12px 24px; border-radius: 999px; border: 0;
+  background: var(--earth); color: #fff; font-size: 15px; font-weight: 500;
+  cursor: pointer; transition: background 0.2s;
+}
+.rotate-btn-primary:hover { background: var(--earth-hover); }
+.rotate-btn-secondary {
+  padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent; color: rgba(255, 255, 255, 0.7); font-size: 13.5px;
+  cursor: pointer;
+}
+
+/* ---------------- TỐI ƯU TOÀN MÀN HÌNH KHI XOAY NGANG MOBILE (LANDSCAPE APP VIEW) ---------------- */
+@media screen and (orientation: landscape) and (max-height: 600px) {
+  .top {
+    padding-inline: 16px; padding-block: 6px 14px;
+    background: transparent;
+  }
+  .top:before { display: none; }
+  .top .logo-group { font-size: 17px; }
+  .top .badge-2011 { width: 24px; height: 24px; font-size: 11px; }
+  .teacher-select-btn { font-size: 12px; padding: 3px 10px; }
+  .action-btn { width: 28px; height: 28px; }
+  .hero-kicker, .sb-hint, .botany { display: none !important; }
+
+  .compact-hero {
+    min-height: 100vh; height: 100vh; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .sb-wrap {
+    width: 100vw; height: 100vh; gap: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .sb-stage {
+    width: 100vw; height: 92vh;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sb-3d {
+    width: min(96vw, calc(90vh * 1760 / 1240));
+    height: auto; max-width: none;
+  }
+  .sb-book {
+    width: 100%; height: auto;
+  }
+  .sb-arrow {
+    position: fixed; top: 50%; transform: translateY(-50%); z-index: 100;
+    padding: 20px 10px; color: var(--ink-soft);
+    background: rgba(255, 255, 255, 0.15); border-radius: 8px;
+  }
+  .sb-arrow.left { left: 4px; }
+  .sb-arrow.right { right: 4px; }
+
+  .sb-tools {
+    position: fixed; bottom: 8px; left: 50%; transform: translateX(-50%);
+    z-index: 90; padding: 3px 8px; opacity: 0.85;
+    background: rgba(250, 245, 235, 0.75);
+  }
+  .sb-captions { display: none; }
+  .video-action-slot { display: none; }
+
+  .sb-video-direct-hit { width: 84px; height: 84px; }
+  .direct-play-btn-circle { width: 80px; height: 80px; }
+}
+
