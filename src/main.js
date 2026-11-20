@@ -1,42 +1,38 @@
 /**
  * SỔ TAY KÝ HỌA TRI ÂN THẦY CÔ 20/11 - MAIN CONTROLLER
- * Kế thừa 100% hiệu ứng lật trang cong 3D 18 dải, kính lúp & đổ bóng 3 lớp
+ * Tối giản 100% tập trung vào cuốn sách: Ảnh & Video to rộng, click Play phát ngay, xóa bỏ UI phụ bên dưới
  */
 import { TEACHERS_DATA, COMMON_ASSETS } from "./data/teachersContent.js";
 import { BookCanvasRenderer } from "./canvasRenderer.js";
 import { renderQRPage } from "./qrPage.js";
 
-// Lấy tham số URL
 const Q = new URLSearchParams(location.search);
 
-// Nếu người dùng vào trang QR (?page=qr)
+// Mở trang mã QR (?page=qr)
 if (Q.get("page") === "qr") {
   const app = document.getElementById("app");
   renderQRPage(app);
 } else {
-  // Chạy ứng dụng cuốn sách lật trang 3D
   initBookApp();
 }
 
 async function initBookApp() {
-  // Xác định giáo viên hiện tại
   let teacherId = Q.get("teacher");
   if (!teacherId || !TEACHERS_DATA[teacherId]) {
-    teacherId = "toan"; // Mặc định mở môn Toán nếu không có tham số
+    teacherId = "toan";
   }
   const teacher = TEACHERS_DATA[teacherId];
 
-  // Render khung giao diện chính
   const app = document.getElementById("app");
   app.innerHTML = `
     <div class="wash" aria-hidden="true"></div>
 
-    <!-- Màn hình chào chạm để mở sách & bật nhạc -->
+    <!-- Màn hình chào mở sách & bật nhạc -->
     <div class="welcome-overlay" id="welcomeOverlay">
       <div class="welcome-card">
         <span class="welcome-badge">TRI ÂN THẦY CÔ 20/11</span>
         <h1 class="welcome-title">${teacher.teacherName}</h1>
-        <p class="welcome-desc">Kính tặng Thầy / Cô cuốn sổ tay ký họa 3D lưu giữ những khoảnh khắc và thước phim kỷ niệm thiêng liêng.</p>
+        <p class="welcome-desc">Kính tặng Thầy / Cô cuốn sổ tay ký họa 3D lưu giữ những thước phim và khoảnh khắc kỷ niệm thiêng liêng.</p>
         <button class="welcome-btn" id="btnEnterBook">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
           Chạm Để Mở Sổ Tay & Nghe Nhạc
@@ -44,7 +40,7 @@ async function initBookApp() {
       </div>
     </div>
 
-    <!-- Top Navigation Header -->
+    <!-- Top Header gọn gàng -->
     <header class="top">
       <div class="top-bar-inner">
         <a class="logo-group" href="./">
@@ -92,13 +88,13 @@ async function initBookApp() {
       </div>
     </header>
 
-    <!-- Khu vực Cuốn Sách 3D -->
-    <main class="page home">
-      <section id="sketchbook" class="hero">
+    <!-- KHU VỰC CUỐN SÁCH 3D (TẬP TRUNG TOÀN MÀN HÌNH) -->
+    <main class="page home single-focus">
+      <section id="sketchbook" class="hero compact-hero">
         <img class="botany l" src="/meng-to-sketchbook/botany-left.png" alt="" aria-hidden="true">
         <img class="botany r" src="/meng-to-sketchbook/botany-right.png" alt="" aria-hidden="true">
 
-        <p class="hero-kicker" id="heroKicker">SỔ TAY KÝ HỌA · ${teacher.teacherName.toUpperCase()} · MÔN ${teacher.subject.toUpperCase()}</p>
+        <p class="hero-kicker" id="heroKicker">SỔ TAY KÝ HỌA · ${teacher.teacherName.toUpperCase()}</p>
 
         <div class="sb-wrap" id="sbWrap">
           <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -108,7 +104,7 @@ async function initBookApp() {
           
           <div class="sb-stage" id="sbStage">
             <button class="sb-arrow left" id="sbLeft" aria-label="Trang trước">
-              <svg viewBox="0 0 14 44" width="16" height="48" fill="none" aria-hidden="true"><polyline points="11,3 3,22 11,41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg viewBox="0 0 14 44" width="18" height="52" fill="none" aria-hidden="true"><polyline points="11,3 3,22 11,41" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
 
             <div class="sb-3d" id="sb3d">
@@ -123,20 +119,20 @@ async function initBookApp() {
                 </div>
               </div>
 
-              <!-- Kính lúp -->
+              <!-- Kính lúp soi chi tiết -->
               <div class="zoomwrap" id="zoomWrap" aria-hidden="true"><div class="zoominner" id="zoomInner"></div></div>
               <div class="loupe" id="loupe"><span class="grip"></span><span class="ring"><span class="lens" id="loupeLens"><span class="mag" id="loupeMag"></span></span></span></div>
             </div>
 
             <button class="sb-arrow right" id="sbRight" aria-label="Trang sau">
-              <svg viewBox="0 0 14 44" width="16" height="48" fill="none" aria-hidden="true"><polyline points="3,3 11,22 3,41" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg viewBox="0 0 14 44" width="18" height="52" fill="none" aria-hidden="true"><polyline points="3,3 11,22 3,41" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
           </div>
 
           <div class="sb-captions" id="sbCaptions"></div>
 
-          <!-- Nút phát video nếu trang hiện tại có video -->
-          <div id="videoActionSlot" style="min-height:36px;display:flex;align-items:center;"></div>
+          <!-- Nút phát video nổi bật nếu trang hiện tại có video -->
+          <div id="videoActionSlot" class="video-action-slot"></div>
 
           <!-- Thanh điều khiển Zoom & Kính lúp -->
           <div class="sb-tools" role="group" aria-label="view controls">
@@ -147,45 +143,16 @@ async function initBookApp() {
             <button class="tool" id="loupeBtn" aria-label="Kính lúp" aria-pressed="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.8" cy="8.8" r="5.8"/><path d="M13 13l4.4 4.4"/><path d="M6.4 7.2a3.2 3.2 0 0 1 2.4-1.4" opacity=".55"/></svg></button>
           </div>
 
-          <p class="sb-hint" id="sbHint">Vuốt hoặc bấm phím mũi tên để lật trang · Rê kính lúp để xem chi tiết</p>
+          <p class="sb-hint" id="sbHint">Vuốt hoặc bấm phím mũi tên để lật trang · Bấm vào video để phát</p>
         </div>
-
-        <button class="hero-down" id="heroDown" aria-label="Cuộn xuống xem nội dung">
-          <svg viewBox="0 0 44 22" width="34" height="17" fill="none" aria-hidden="true">
-            <polyline points="3,3 22,11 41,3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <polyline points="3,11 22,19 41,11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
       </section>
-
-      <div class="rule" aria-hidden="true"></div>
-
-      <!-- Khu vực giới thiệu chi tiết trang đang mở (cho mobile và desktop) -->
-      <section id="about" class="about">
-        <div class="bio-wrapper">
-          <p class="section-label" id="aboutLabel">Trang 01 · Tâm Thư Tri Ân</p>
-          <div class="bio" id="aboutBio"></div>
-        </div>
-        <img class="bloom" src="/meng-to-sketchbook/bloom.png" alt="Hoa Tri Ân">
-      </section>
-
-      <div class="rule short" aria-hidden="true"></div>
-
-      <!-- Mục lục danh sách các trang (Plates) -->
-      <section id="plates" class="plates">
-        <p class="section-label">Mục Lục Cuốn Sổ Tay (${teacher.subject})</p>
-        <ol class="plate-list" id="plateList"></ol>
-      </section>
-
-      <div class="rule short" aria-hidden="true"></div>
-      <p class="foot">TRI ÂN THẦY CÔ 20/11 · SỔ TAY KỶ NIỆM HỌC TRÒ · NĂM HỌC 2026</p>
     </main>
 
     <!-- Modal Xem Video Kỷ Niệm Full-View -->
     <div class="video-modal" id="videoModal">
       <div class="video-modal-content">
         <button class="video-modal-close" id="btnCloseVideo" aria-label="Đóng video">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
         <video id="modalVideoPlayer" controls playsinline></video>
       </div>
@@ -251,7 +218,6 @@ async function initBookApp() {
     }
   };
 
-  // Màn hình mở thiệp chạm đầu tiên (vừa mở thiệp vừa kích hoạt âm thanh)
   const welcomeOverlay = document.getElementById("welcomeOverlay");
   const btnEnterBook = document.getElementById("btnEnterBook");
   btnEnterBook.onclick = () => {
@@ -269,7 +235,7 @@ async function initBookApp() {
 
   function openVideoModal(videoSrc) {
     if (isMusicPlaying) {
-      bgAudio.pause(); // Tự động pause nhạc khi xem video
+      bgAudio.pause();
     }
     modalVideoPlayer.src = videoSrc;
     videoModal.classList.add("open");
@@ -281,7 +247,7 @@ async function initBookApp() {
     modalVideoPlayer.src = "";
     videoModal.classList.remove("open");
     if (isMusicPlaying) {
-      bgAudio.play().catch(console.warn); // Tự động phát lại nhạc khi đóng video
+      bgAudio.play().catch(console.warn);
     }
   }
 
@@ -305,23 +271,15 @@ async function initBookApp() {
     signature: teacher.openingLetter.signature,
     quote: teacher.quote,
     teacherName: teacher.teacherName,
-    subject: teacher.subject,
-    desc: `<strong>${teacher.openingLetter.title}</strong><br><br>${teacher.openingLetter.body.replace(/\n/g, "<br>")}`
+    subject: teacher.subject
   });
 
-  // 2. Các trang giữa (Ảnh & Video của giáo viên)
-  const totalMedia = teacher.mediaItems.length + 1; // +1 cho sân trường
-  teacher.mediaItems.forEach((m, idx) => {
+  // 2. Các trang giữa (Chỉ hiển thị Ảnh & Video to rộng)
+  teacher.mediaItems.forEach((m) => {
     rawPagesData.push({
       type: m.type,
       file: m.file,
-      title: m.title,
-      caption: m.caption,
-      teacherName: teacher.teacherName,
-      subject: teacher.subject,
-      pageNum: idx + 1,
-      totalPages: totalMedia,
-      desc: `<strong>${m.title}</strong><br>${m.caption}${m.type === "video" ? "<br><br><em>(Trang này có Video kỷ niệm. Bạn có thể bấm nút ▶ Xem Video ở trên để thưởng thức).</em>" : ""}`
+      title: m.title
     });
   });
 
@@ -329,13 +287,7 @@ async function initBookApp() {
   rawPagesData.push({
     type: "image",
     file: COMMON_ASSETS.sanTruongImg,
-    title: teacher.sanTruongCaption.title,
-    caption: teacher.sanTruongCaption.caption,
-    teacherName: teacher.teacherName,
-    subject: teacher.subject,
-    pageNum: totalMedia,
-    totalPages: totalMedia,
-    desc: `<strong>${teacher.sanTruongCaption.title}</strong><br>${teacher.sanTruongCaption.caption}`
+    title: teacher.sanTruongCaption.title
   });
 
   // 4. Trang kết (Tâm thư kết)
@@ -348,11 +300,10 @@ async function initBookApp() {
     signature: teacher.closingLetter.signature,
     quote: teacher.quote,
     teacherName: teacher.teacherName,
-    subject: teacher.subject,
-    desc: `<strong>${teacher.closingLetter.title}</strong><br><br>${teacher.closingLetter.body.replace(/\n/g, "<br>")}`
+    subject: teacher.subject
   });
 
-  // KHỞI TẠO BỘ CANVAS RENDERER
+  // RENDER CANVAS CHO MỌI TRANG
   const renderer = new BookCanvasRenderer("/blank-book.png");
   await renderer.init();
 
@@ -372,7 +323,7 @@ async function initBookApp() {
   }
 
   // =========================================================================
-  // ENGINE HIỆU ỨNG LẬT SÁCH 3D 18 STRIP CONG (KẾ THỪA 100% TỪ BẢN GỐC)
+  // ENGINE HIỆU ỨNG LẬT SÁCH 3D 18 STRIP CONG
   // =========================================================================
   const M = PAGES.length;
   const LAND = 0;
@@ -466,7 +417,7 @@ async function initBookApp() {
       const f = el("div", "sb-full");
       const im = new Image();
       im.src = PAGES[idx].url;
-      im.alt = PAGES[idx].title;
+      im.alt = PAGES[idx].title || "";
       im.draggable = false;
       f.appendChild(im);
       book.appendChild(f);
@@ -478,14 +429,32 @@ async function initBookApp() {
       book.appendChild(buildCurl(turn.dir, turn.from, turn.to));
       applyTurn(turn.t);
     }
+
     const a = el("button", "sb-zone sb-prev"), b = el("button", "sb-zone sb-next");
     a.setAttribute("aria-label", "Trang trước");
     b.setAttribute("aria-label", "Trang sau");
     book.appendChild(a);
     book.appendChild(b);
+
+    // NẾU LÀ TRANG VIDEO: THÊM NÚT BẤM TRỰC TIẾP TRÊN TRANG ĐỂ XEM VIDEO
+    const curPage = PAGES[idx];
+    if (curPage && curPage.type === "video" && !turn) {
+      const hitPlay = el("button", "sb-video-direct-hit");
+      hitPlay.setAttribute("aria-label", "Xem Video Kỷ Niệm");
+      hitPlay.innerHTML = `
+        <span class="direct-play-btn-circle">
+          <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+        </span>
+      `;
+      hitPlay.onclick = (e) => {
+        e.stopPropagation();
+        openVideoModal(curPage.file);
+      };
+      book.appendChild(hitPlay);
+    }
+
     layout();
     caption();
-    marks();
     updateVideoActionBtn();
     if (typeof syncZoomLayer === "function") syncZoomLayer();
     if (typeof placeLoupe === "function") placeLoupe();
@@ -496,11 +465,11 @@ async function initBookApp() {
     capBox.textContent = "";
     capOut = capIn = null;
     if (turn) {
-      capOut = el("p", "sb-caption live"); capOut.textContent = PAGES[turn.from].title; capBox.appendChild(capOut);
-      capIn = el("p", "sb-caption live"); capIn.textContent = PAGES[turn.to].title; capBox.appendChild(capIn);
+      capOut = el("p", "sb-caption live"); capOut.textContent = PAGES[turn.from].title || ""; capBox.appendChild(capOut);
+      capIn = el("p", "sb-caption live"); capIn.textContent = PAGES[turn.to].title || ""; capBox.appendChild(capIn);
       fadeCaption(turn.t);
     } else {
-      const p = el("p", "sb-caption"); p.textContent = PAGES[idx].title; capBox.appendChild(p);
+      const p = el("p", "sb-caption"); p.textContent = PAGES[idx].title || ""; capBox.appendChild(p);
     }
   }
 
@@ -519,8 +488,8 @@ async function initBookApp() {
       const btn = document.createElement("button");
       btn.className = "sb-video-action-btn";
       btn.innerHTML = `
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-        <span>Xem Video Kỷ Niệm (${curPage.title})</span>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+        <span>Bấm Xem Video Kỷ Niệm</span>
       `;
       btn.onclick = () => openVideoModal(curPage.file);
       videoSlot.appendChild(btn);
@@ -629,7 +598,7 @@ async function initBookApp() {
   stage.addEventListener("dblclick", () => setView(view.trx, view.try_, 1));
 
   // =========================================================================
-  // GESTURE & TOUCH / SWIPE CONTROLS
+  // GESTURE & TOUCH SWIPE CONTROLS
   // =========================================================================
   let drag = null;
   function bookRect() { return book.getBoundingClientRect(); }
@@ -637,6 +606,9 @@ async function initBookApp() {
 
   stage.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
+    // Nếu bấm trúng nút Play video trực tiếp thì không quay trang
+    if (e.target.closest(".sb-video-direct-hit")) return;
+
     e.preventDefault();
     const onBook = e.target.closest(".sb-zone");
     stage.setPointerCapture(e.pointerId);
@@ -695,14 +667,6 @@ async function initBookApp() {
     if (turn) { idx = turn.to; turn = null; }
     startTurn(dir, 0); commit();
   }
-  function goTo(i) {
-    if (introOn) endIntro();
-    if (i === idx) return;
-    if (turn) { idx = turn.to; turn = null; }
-    const fwd = (i - idx + M) % M, back = (idx - i + M) % M;
-    if (Math.min(fwd, back) === 1) { step(fwd === 1 ? "next" : "prev"); return; }
-    idx = i; paint();
-  }
 
   document.getElementById("sbLeft").onclick = () => step("prev");
   document.getElementById("sbRight").onclick = () => step("next");
@@ -714,9 +678,6 @@ async function initBookApp() {
     e.preventDefault(); hideHint();
     step(e.key === "ArrowRight" ? "next" : "prev");
   });
-  document.getElementById("heroDown").onclick = () => {
-    document.getElementById("about").scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   // =========================================================================
   // KÍNH LÚP & ĐIỀU KHIỂN ZOOM
@@ -740,7 +701,7 @@ async function initBookApp() {
   function syncZoomLayer() {
     zoomInner.textContent = "";
     for (const c of book.children) {
-      if (c.classList.contains("sb-zone")) continue;
+      if (c.classList.contains("sb-zone") || c.classList.contains("sb-video-direct-hit")) continue;
       zoomInner.appendChild(c.cloneNode(true));
     }
   }
@@ -830,39 +791,7 @@ async function initBookApp() {
   zInBtn.onclick = () => { setView(view.trx, view.try_, view.tz * 1.16); hideHint(); };
   zOutBtn.onclick = () => { setView(view.trx, view.try_, view.tz / 1.16); hideHint(); };
 
-  // =========================================================================
-  // MỤC LỤC TRANG & THÔNG TIN CHI TIẾT
-  // =========================================================================
-  const plateList = document.getElementById("plateList");
-  const aboutLabel = document.getElementById("aboutLabel");
-  const aboutBio = document.getElementById("aboutBio");
   let riffle = null, riffleAt = 0, introOn = false;
-
-  PAGES.forEach((p, i) => {
-    const li = el("li");
-    const b = el("button", "plate");
-    b.innerHTML = '<span class="n">' + String(i + 1).padStart(2, "0") + "</span>" +
-      '<span class="t"></span><span class="p"></span>';
-    b.querySelector(".t").textContent = p.title;
-    b.querySelector(".p").textContent = p.type === "video" ? "Video" : (p.type === "text" ? "Tâm Thư" : "Hình Ảnh");
-    b.onclick = () => {
-      goTo(i);
-      document.getElementById("sketchbook").scrollIntoView({ behavior: "smooth", block: "center" });
-    };
-    li.appendChild(b);
-    plateList.appendChild(li);
-  });
-
-  function marks() {
-    const cur = introOn ? LAND : (turn ? turn.to : idx);
-    plateList.querySelectorAll(".plate").forEach((b, i) => b.setAttribute("aria-current", i === cur ? "true" : "false"));
-    const p = PAGES[cur];
-    if (p && aboutLabel && aboutBio) {
-      aboutLabel.textContent = `Trang ${String(cur + 1).padStart(2, "0")} · ${p.title}`;
-      aboutBio.innerHTML = p.desc;
-    }
-  }
-
   function endIntro() {
     introOn = false; wrap.classList.remove("intro", "b2");
   }
@@ -880,7 +809,7 @@ async function initBookApp() {
   function startIntro() {
     const coarse = matchMedia("(max-width: 640px), (pointer: coarse)").matches;
     if (coarse || REDUCED || Q.has("nointro")) { idx = LAND; paint(); return; }
-    const steps = Math.min(M, 4); // Riffle nhẹ 3-4 trang đầu để chào mừng
+    const steps = Math.min(M, 3);
     riffle = [];
     for (let r = 0; r < steps; r++) {
       const bell = Math.sin(Math.PI * (r / (steps - 1)));
@@ -890,11 +819,9 @@ async function initBookApp() {
     riffleStep();
   }
 
-  // Khởi động cuốn sách
   paint();
   applyView();
   syncZoom();
   restLoupe();
   setTimeout(startIntro, 350);
 }
-
