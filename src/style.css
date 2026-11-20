@@ -627,59 +627,61 @@ button { font: inherit; }
   .sb-hint { font-size: 10.5px; letter-spacing: 0.08em; padding: 0 12px; }
 }
 
-/* ---------------- NHẮC XOAY NGANG MÀN HÌNH (ROTATE DEVICE PROMPT) ---------------- */
+/* ---------------- KHÓA BẮT BUỘC XOAY NGANG TRÊN MOBILE ---------------- */
 .rotate-prompt-overlay {
   position: fixed; inset: 0; z-index: 950;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  background: rgba(22, 18, 14, 0.94);
-  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(22, 18, 14, 0.96);
+  -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
   color: #fff; text-align: center; padding: 24px;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
 }
-.rotate-prompt-overlay.dismissed {
-  opacity: 0; visibility: hidden; pointer-events: none;
+
+/* Khi điện thoại đang ở chiều dọc: BUỘC PHẢI HIỂN THỊ MÀN HÌNH KHÓA XOAY */
+@media screen and (orientation: portrait) and (max-width: 900px) {
+  .rotate-prompt-overlay {
+    display: flex !important;
+  }
+  .page.single-focus {
+    display: none !important; /* Ẩn toàn bộ sách khi chưa xoay ngang */
+  }
 }
-/* Tự động ẩn hoàn toàn khi điện thoại ĐÃ xoay ngang hoặc trên máy tính */
+
+/* Khi điện thoại ĐÃ xoay ngang: TỰ ĐỘNG MỞ CUỐN SÁCH RA */
 @media screen and (orientation: landscape) {
-  .rotate-prompt-overlay { display: none !important; }
+  .rotate-prompt-overlay {
+    display: none !important;
+  }
 }
-@media screen and (min-width: 900px) {
-  .rotate-prompt-overlay { display: none !important; }
+@media screen and (min-width: 901px) {
+  .rotate-prompt-overlay {
+    display: none !important;
+  }
 }
 
 .rotate-prompt-card {
-  max-width: 380px; width: 100%;
-  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  max-width: 360px; width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
 }
 .rotate-anim-icon {
-  width: 64px; height: 64px; margin-bottom: 4px;
-  animation: rotate-phone-anim 2.5s infinite ease-in-out;
+  width: 72px; height: 72px; margin-bottom: 6px;
+  animation: rotate-phone-anim 2.2s infinite ease-in-out;
 }
 @keyframes rotate-phone-anim {
-  0%, 20% { transform: rotate(0deg); }
+  0%, 15% { transform: rotate(0deg); }
   50%, 80% { transform: rotate(-90deg); }
   100% { transform: rotate(0deg); }
 }
 .rotate-prompt-title {
-  font-family: var(--display); font-size: 28px; margin: 0;
-  color: #fffaf0; letter-spacing: 0.02em;
+  font-family: var(--display); font-size: 30px; margin: 0;
+  color: #fffaf0; letter-spacing: 0.03em;
 }
 .rotate-prompt-desc {
-  font-size: 15.5px; line-height: 1.55; color: rgba(255, 255, 255, 0.82); margin: 0;
+  font-size: 16px; line-height: 1.6; color: rgba(255, 255, 255, 0.85); margin: 0;
 }
-.rotate-prompt-actions {
-  display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 8px;
-}
-.rotate-btn-primary {
-  padding: 12px 24px; border-radius: 999px; border: 0;
-  background: var(--earth); color: #fff; font-size: 15px; font-weight: 500;
-  cursor: pointer; transition: background 0.2s;
-}
-.rotate-btn-primary:hover { background: var(--earth-hover); }
-.rotate-btn-secondary {
-  padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.25);
-  background: transparent; color: rgba(255, 255, 255, 0.7); font-size: 13.5px;
-  cursor: pointer;
+.rotate-hint-badge {
+  display: inline-block; padding: 6px 16px; border-radius: 999px;
+  background: rgba(154, 106, 62, 0.25); border: 1px solid var(--earth);
+  color: #f1bf8e; font-size: 13px; font-weight: 500;
 }
 
 /* ---------------- TỐI ƯU TOÀN MÀN HÌNH KHI XOAY NGANG MOBILE (LANDSCAPE APP VIEW) ---------------- */

@@ -1,0 +1,10 @@
+{
+  "name": "Sổ Tay Tri Ân 20/11",
+  "short_name": "Sổ Tay 20/11",
+  "description": "Sổ tay ký họa 3D tri ân Thầy Cô",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#ece7dc",
+  "theme_color": "#9a6a3e"
+}

@@ -40,23 +40,16 @@ async function initBookApp() {
       </div>
     </div>
 
-    <!-- Nhắc nhở xoay ngang màn hình trên Mobile để hiển thị tối ưu -->
+    <!-- Màn hình KHÓA BẮT BUỘC xoay ngang trên Mobile -->
     <div class="rotate-prompt-overlay" id="rotatePromptOverlay">
       <div class="rotate-prompt-card">
         <svg class="rotate-anim-icon" viewBox="0 0 24 24" fill="none" stroke="#dca773" stroke-width="1.8">
           <rect x="5" y="2" width="14" height="20" rx="3"></rect>
           <line x1="12" y1="18" x2="12" y2="18.01" stroke-width="3"></line>
         </svg>
-        <h2 class="rotate-prompt-title">Xoay Ngang Điện Thoại</h2>
-        <p class="rotate-prompt-desc">Hãy xoay ngang điện thoại để cuốn sổ tay 3D bung to tràn viền như một cuốn sách thực thụ.</p>
-        <div class="rotate-prompt-actions">
-          <button class="rotate-btn-primary" id="btnRotateFullscreen">
-            Xoay Ngang & Toàn Màn Hình
-          </button>
-          <button class="rotate-btn-secondary" id="btnDismissRotate">
-            Tiếp tục xem dọc
-          </button>
-        </div>
+        <h2 class="rotate-prompt-title">Vui Lòng Xoay Ngang Điện Thoại</h2>
+        <p class="rotate-prompt-desc">Để mở cuốn sổ tay ký họa 3D tràn viền toàn màn hình, bạn hãy xoay ngang máy lại nhé.</p>
+        <span class="rotate-hint-badge">✨ Sách sẽ tự động mở khi bạn xoay ngang</span>
       </div>
     </div>
 
@@ -242,37 +235,17 @@ async function initBookApp() {
   const btnEnterBook = document.getElementById("btnEnterBook");
   btnEnterBook.onclick = () => {
     welcomeOverlay.classList.add("hidden");
+
+    // Thử kích hoạt chế độ xoay ngang tự động bằng Web Screen Orientation API (Android / PWA)
+    if (screen.orientation && screen.orientation.lock) {
+      screen.orientation.lock("landscape").catch(() => {});
+    }
+
     bgAudio.play().then(() => {
       isMusicPlaying = true;
       btnAudioToggle.classList.add("playing");
     }).catch(console.warn);
   };
-
-  // Quản lý nhắc nhở xoay ngang màn hình (Landscape Optimization)
-  const rotatePrompt = document.getElementById("rotatePromptOverlay");
-  const btnRotateFullscreen = document.getElementById("btnRotateFullscreen");
-  const btnDismissRotate = document.getElementById("btnDismissRotate");
-
-  if (rotatePrompt) {
-    btnRotateFullscreen.onclick = () => {
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen().catch(() => {});
-      }
-      rotatePrompt.classList.add("dismissed");
-    };
-    btnDismissRotate.onclick = () => {
-      rotatePrompt.classList.add("dismissed");
-    };
-
-    // Khi người dùng xoay ngang điện thoại, tự động ẩn prompt
-    const checkOrientation = () => {
-      if (window.innerWidth > window.innerHeight) {
-        rotatePrompt.classList.add("dismissed");
-      }
-    };
-    window.addEventListener("resize", checkOrientation);
-    window.addEventListener("orientationchange", checkOrientation);
-  }
 
   // Quản lý Video Modal
   const videoModal = document.getElementById("videoModal");
