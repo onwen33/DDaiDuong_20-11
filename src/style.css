@@ -262,6 +262,32 @@ button { font: inherit; }
   transform: scale(0.96);
 }
 
+/* VIDEO EMBED TRỰC TIẾP TRÊN TRANG SÁCH (TỰ ĐỘNG PHÁT VÀ NẰM GỌN TRÊN TRANG) */
+.book-video-embed {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 82%;
+  height: 52%;
+  max-width: 82%;
+  max-height: 52%;
+  z-index: 70;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.book-embed-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
 /* ĐỔ BÓNG 3 LỚP */
 .sb-cast { position: absolute; pointer-events: none; z-index: 0; }
 .sb-cast.ambient {
@@ -735,5 +761,12 @@ button { font: inherit; }
 
   .sb-video-direct-hit { width: 84px; height: 84px; }
   .direct-play-btn-circle { width: 80px; height: 80px; }
+
+  .book-video-embed {
+    width: 86%;
+    height: 56%;
+    max-width: 86%;
+    max-height: 56%;
+  }
 }
 

@@ -492,21 +492,39 @@ async function initBookApp() {
     book.appendChild(a);
     book.appendChild(b);
 
-    // NẾU LÀ TRANG VIDEO: THÊM NÚT BẤM TRỰC TIẾP TRÊN TRANG ĐỂ XEM VIDEO
+    // NẾU LÀ TRANG VIDEO: TỰ ĐỘNG PHÁT VIDEO TRÊN MẶT SÁCH & ÂM THANH ĐÈ LÊN NHẠC NỀN
     const curPage = PAGES[idx];
     if (curPage && curPage.type === "video" && !turn) {
-      const hitPlay = el("button", "sb-video-direct-hit");
-      hitPlay.setAttribute("aria-label", "Xem Video Kỷ Niệm");
-      hitPlay.innerHTML = `
-        <span class="direct-play-btn-circle">
-          <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
-        </span>
-      `;
-      hitPlay.onclick = (e) => {
-        e.stopPropagation();
-        openVideoModal(curPage.file);
+      const embedWrap = el("div", "book-video-embed");
+      const vid = el("video", "book-embed-video");
+      vid.playsInline = true;
+      vid.controls = true;
+      vid.autoplay = true;
+      vid.src = curPage.file.startsWith("/") ? curPage.file : `/${curPage.file}`;
+
+      // Giảm âm lượng nhạc nền xuống 25% để âm thanh video đè lên tiếng nhạc nền
+      bgAudio.volume = 0.25;
+
+      vid.onplay = () => {
+        bgAudio.volume = 0.25;
       };
-      book.appendChild(hitPlay);
+      vid.onpause = () => {
+        bgAudio.volume = 1.0;
+      };
+      vid.onended = () => {
+        bgAudio.volume = 1.0;
+      };
+
+      // Tự động phát video
+      vid.play().catch((err) => {
+        console.warn("Autoplay video bị chặn, người dùng có thể bấm nút Play:", err);
+      });
+
+      embedWrap.appendChild(vid);
+      book.appendChild(embedWrap);
+    } else {
+      // Khi không phải trang video, phục hồi âm lượng nhạc nền bình thường
+      bgAudio.volume = 1.0;
     }
 
     layout();
@@ -664,8 +682,8 @@ async function initBookApp() {
 
   stage.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
-    // Nếu bấm trúng nút Play video trực tiếp thì không quay trang
-    if (e.target.closest(".sb-video-direct-hit")) return;
+    // Nếu bấm trúng video nhúng hoặc nút Play video trực tiếp thì không lật trang
+    if (e.target.closest(".book-video-embed") || e.target.closest(".sb-video-direct-hit")) return;
 
     e.preventDefault();
     const onBook = e.target.closest(".sb-zone");
@@ -704,6 +722,14 @@ async function initBookApp() {
   function startTurn(dir, t) {
     spring = null;
     if (turn) { idx = turn.to; turn = null; }
+
+    // Dừng video đang phát và trả lại âm lượng nhạc nền khi lật trang
+    const playingVid = book.querySelector("video");
+    if (playingVid) {
+      playingVid.pause();
+    }
+    bgAudio.volume = 1.0;
+
     if (typeof shoveLoupe === "function") shoveLoupe(dir);
     const from = idx;
     turn = { dir: dir, from: from, to: dir === "next" ? (from + 1) % M : (from - 1 + M) % M, t: t || 0 };
