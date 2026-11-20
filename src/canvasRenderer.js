@@ -152,7 +152,7 @@ export class BookCanvasRenderer {
     this.drawVintageCorners(ctx, leftX, leftY, leftW, leftH, "rgba(120, 85, 50, 0.35)");
 
     ctx.fillStyle = "rgba(90, 65, 40, 0.65)";
-    ctx.font = "italic 18px 'Newsreader', Georgia, serif";
+    ctx.font = "italic 18px 'Lora', Georgia, serif";
     ctx.textAlign = "center";
     ctx.fillText(
       isClosing ? "— LỜI KẾT TRI ÂN —" : "— KỶ NIỆM 20/11 —",
@@ -176,18 +176,18 @@ export class BookCanvasRenderer {
     ctx.setLineDash([]);
 
     ctx.fillStyle = "#9a6a3e";
-    ctx.font = "26px 'Instrument Serif', Georgia, serif";
+    ctx.font = "bold 26px 'Playfair Display', Georgia, serif";
     ctx.textBaseline = "middle";
     ctx.fillText("20/11", badgeX, badgeY - 2);
     ctx.restore();
 
     ctx.fillStyle = "#2b2721";
-    ctx.font = "normal 34px 'Instrument Serif', Georgia, serif";
+    ctx.font = "normal 34px 'Playfair Display', Georgia, serif";
     ctx.textAlign = "center";
     ctx.fillText(teacherName || "Thầy / Cô Kính Yêu", leftX + leftW / 2, leftY + 235);
 
     ctx.fillStyle = "#9a6a3e";
-    ctx.font = "italic 20px 'Newsreader', Georgia, serif";
+    ctx.font = "italic 20px 'Lora', Georgia, serif";
     ctx.fillText(`Môn ${subject || ""}`, leftX + leftW / 2, leftY + 272);
 
     ctx.strokeStyle = "rgba(154, 106, 62, 0.3)";
@@ -199,7 +199,7 @@ export class BookCanvasRenderer {
 
     if (quote) {
       ctx.fillStyle = "rgba(65, 55, 45, 0.85)";
-      ctx.font = "italic 22px 'Newsreader', Georgia, serif";
+      ctx.font = "italic 22px 'Lora', Georgia, serif";
       ctx.textAlign = "center";
       this.wrapText(
         ctx,
@@ -213,7 +213,7 @@ export class BookCanvasRenderer {
 
     if (date) {
       ctx.fillStyle = "rgba(90, 75, 60, 0.6)";
-      ctx.font = "17px 'Newsreader', Georgia, serif";
+      ctx.font = "17px 'Lora', Georgia, serif";
       ctx.textAlign = "center";
       ctx.fillText(date, leftX + leftW / 2, leftY + leftH - 45);
     }
@@ -227,7 +227,7 @@ export class BookCanvasRenderer {
     this.drawVintageCorners(ctx, rightX, rightY, rightW, rightH, "rgba(120, 85, 50, 0.35)");
 
     ctx.fillStyle = "#2b2721";
-    ctx.font = "normal 33px 'Instrument Serif', Georgia, serif";
+    ctx.font = "normal 33px 'Playfair Display', Georgia, serif";
     ctx.textAlign = "left";
     ctx.fillText(title || "Tâm Thư Tri Ân", rightX + 45, rightY + 68);
 
@@ -239,7 +239,7 @@ export class BookCanvasRenderer {
     ctx.stroke();
 
     ctx.fillStyle = "#2b2721";
-    ctx.font = "normal 20px 'Newsreader', Georgia, serif";
+    ctx.font = "normal 20px 'Lora', Georgia, serif";
     ctx.textAlign = "left";
 
     const endY = this.wrapText(
@@ -253,7 +253,7 @@ export class BookCanvasRenderer {
 
     if (signature) {
       ctx.fillStyle = "#7a5631";
-      ctx.font = "italic 21px 'Newsreader', Georgia, serif";
+      ctx.font = "italic 21px 'Lora', Georgia, serif";
       ctx.textAlign = "right";
       ctx.fillText(signature, rightX + rightW - 50, Math.max(endY + 40, rightY + rightH - 50));
     }
@@ -368,7 +368,7 @@ export class BookCanvasRenderer {
 
       // Chữ tiêu đề trên poster
       ctx.fillStyle = "rgba(245, 235, 220, 0.85)";
-      ctx.font = "italic 26px 'Instrument Serif', Georgia, serif";
+      ctx.font = "italic 26px 'Playfair Display', Georgia, serif";
       ctx.textAlign = "center";
       ctx.fillText("— THƯỚC PHIM KỶ NIỆM 20/11 —", this.width / 2, targetY + 90);
     }

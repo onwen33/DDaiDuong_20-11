@@ -380,6 +380,9 @@ async function initBookApp() {
   // RENDER CANVAS CHO MỌI TRANG (Tối ưu Mobile: Khởi tạo ngay lập tức, không để treo giao diện)
   const renderer = new BookCanvasRenderer("/blank-book.png");
   try {
+    if (document.fonts && document.fonts.ready) {
+      await document.fonts.ready;
+    }
     await renderer.init();
   } catch (e) {
     console.warn("Init renderer warning:", e);
