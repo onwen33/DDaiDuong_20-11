@@ -227,12 +227,25 @@ button { font: inherit; }
 }
 .sb-book { position: relative; width: 100%; aspect-ratio: 1760/1240; transform-style: preserve-3d; z-index: 1; }
 
-/* NÚT BẤM XEM VIDEO TRỰC TIẾP TRÊN TRANG SÁCH */
+/* NÚT BẤM XEM VIDEO TRỰC TIẾP TRÊN TRANG SÁCH (CHỈ GÓI GỌN NÚT PLAY Ở GIỮA) */
 .sb-video-direct-hit {
-  position: absolute; inset: 0; z-index: 65;
-  border: 0; background: transparent; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  z-index: 75;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   -webkit-tap-highlight-color: transparent;
+}
 }
 .direct-play-btn-circle {
   display: inline-flex; align-items: center; justify-content: center;
@@ -599,6 +612,7 @@ button { font: inherit; }
   .sb-arrow.left { left: 2px; }
   .sb-arrow.right { right: 2px; }
   .sb-3d { max-width: none; }
+  .sb-video-direct-hit { width: 76px; height: 76px; }
   .direct-play-btn-circle { width: 72px; height: 72px; }
   .direct-play-btn-circle svg { width: 28px; height: 28px; }
   .sb-hint { font-size: 10.5px; letter-spacing: 0.08em; padding: 0 12px; }
