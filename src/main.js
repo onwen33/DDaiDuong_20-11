@@ -81,8 +81,12 @@ async function initBookApp() {
           </div>
         </div>
 
-        <!-- Các nút tiện ích: Nhạc, Theme, QR -->
+        <!-- Các nút tiện ích: Nhạc, Theme, Fullscreen, QR -->
         <div class="top-actions">
+          <button class="action-btn" id="btnFullscreenToggle" aria-label="Toàn màn hình" title="Bật / Tắt Toàn màn hình">
+            <svg id="fullscreenIcon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          </button>
+
           <button class="action-btn" id="btnAudioToggle" aria-label="Bật/Tắt nhạc nền" title="Bật / Tắt nhạc">
             <div class="music-wave" id="musicWave">
               <span></span><span></span><span></span>
@@ -212,6 +216,44 @@ async function initBookApp() {
     };
   });
 
+  // Quản lý Toàn Màn Hình (Fullscreen - Ẩn thanh URL như Game)
+  const btnFullscreenToggle = document.getElementById("btnFullscreenToggle");
+  const fullscreenIcon = document.getElementById("fullscreenIcon");
+
+  function triggerFullscreen() {
+    const doc = document;
+    const isFs = doc.fullscreenElement || doc.webkitFullscreenElement || doc.mozFullScreenElement || doc.msFullscreenElement;
+    if (!isFs) {
+      const docEl = doc.documentElement;
+      const req = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.mozRequestFullScreen || docEl.msRequestFullscreen;
+      if (req) {
+        req.call(docEl).catch(() => {});
+      }
+    } else {
+      const exit = doc.exitFullscreen || doc.webkitExitFullscreen || doc.mozCancelFullScreen || doc.msExitFullscreen;
+      if (exit) {
+        exit.call(doc).catch(() => {});
+      }
+    }
+  }
+
+  if (btnFullscreenToggle) {
+    btnFullscreenToggle.onclick = triggerFullscreen;
+  }
+
+  function updateFullscreenIcon() {
+    const isFs = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+    if (fullscreenIcon) {
+      if (isFs) {
+        fullscreenIcon.innerHTML = `<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>`;
+      } else {
+        fullscreenIcon.innerHTML = `<path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>`;
+      }
+    }
+  }
+  document.addEventListener("fullscreenchange", updateFullscreenIcon);
+  document.addEventListener("webkitfullscreenchange", updateFullscreenIcon);
+
   // Quản lý Nhạc Nền (Audio)
   const bgAudio = new Audio(COMMON_ASSETS.music);
   bgAudio.loop = true;
@@ -245,6 +287,9 @@ async function initBookApp() {
     if (screen.orientation && screen.orientation.lock) {
       screen.orientation.lock("landscape").catch(() => {});
     }
+
+    // Kích hoạt chế độ Toàn Màn Hình ẩn thanh URL như chơi game
+    triggerFullscreen();
 
     bgAudio.play().then(() => {
       isMusicPlaying = true;
