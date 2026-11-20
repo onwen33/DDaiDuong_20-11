@@ -401,13 +401,15 @@ async function initBookApp() {
   })();
 
   // =========================================================================
-  // ENGINE HIỆU ỨNG LẬT SÁCH 3D 18 STRIP CONG
+  // ENGINE HIỆU ỨNG LẬT SÁCH 3D (TỐI ƯU SIÊU MƯỢT 60 FPS CHO MOBILE)
   // =========================================================================
+  const isMobile = matchMedia("(pointer: coarse), (max-width: 900px)").matches;
   const M = PAGES.length;
   const LAND = 0;
-  const N = 18;
+  // Trên mobile giảm strip xuống 8 để GPU di động chạy mượt mà 60 FPS không tụt frame
+  const N = isMobile ? 8 : 16;
   const SPAN = 0.449;
-  const BETA = 0.60;
+  const BETA = 0.58;
   let idx = 0, turn = null;
   let strips = [];
 
@@ -479,13 +481,16 @@ async function initBookApp() {
     sb3d.style.setProperty("--td", (td * D).toFixed(3) + "deg");
     sb3d.style.setProperty("--shade", Math.sin(Math.PI * t).toFixed(3));
     fadeCaption(t);
-    for (let i = 0; i < strips.length; i++) {
-      const l1 = Math.abs(Math.cos(tt - i * td));
-      const l2 = Math.abs(Math.cos(tt - (i + 1) * td));
-      const st = strips[i].style;
-      st.setProperty("--lit", l1.toFixed(3));
-      st.setProperty("--a1", ((1 - l1) * 0.62).toFixed(3));
-      st.setProperty("--a2", ((1 - l2) * 0.62).toFixed(3));
+    // Trên mobile bỏ qua vòng lặp style tính toán ánh sáng từng dải để tiết kiệm 100% CPU
+    if (!isMobile) {
+      for (let i = 0; i < strips.length; i++) {
+        const l1 = Math.abs(Math.cos(tt - i * td));
+        const l2 = Math.abs(Math.cos(tt - (i + 1) * td));
+        const st = strips[i].style;
+        st.setProperty("--lit", l1.toFixed(3));
+        st.setProperty("--a1", ((1 - l1) * 0.62).toFixed(3));
+        st.setProperty("--a2", ((1 - l2) * 0.62).toFixed(3));
+      }
     }
   }
 
@@ -534,8 +539,10 @@ async function initBookApp() {
     layout();
     caption();
     updateVideoActionBtn();
-    if (typeof syncZoomLayer === "function") syncZoomLayer();
-    if (typeof placeLoupe === "function") placeLoupe();
+    if (!isMobile) {
+      if (typeof syncZoomLayer === "function") syncZoomLayer();
+      if (typeof placeLoupe === "function") placeLoupe();
+    }
   }
 
   let capOut = null, capIn = null;
@@ -732,12 +739,12 @@ async function initBookApp() {
   function commit() {
     if (!turn) return;
     if (REDUCED) { idx = turn.to; turn = null; paint(); return; }
-    animateTo(1, () => { idx = turn.to; turn = null; paint(); }, 170, 26);
+    animateTo(1, () => { idx = turn.to; turn = null; paint(); }, isMobile ? 210 : 170, isMobile ? 25 : 26);
     kick();
   }
   function cancel() {
     if (!turn) return;
-    animateTo(0, () => { turn = null; paint(); }, 150, 24);
+    animateTo(0, () => { turn = null; paint(); }, isMobile ? 180 : 150, isMobile ? 24 : 24);
     kick();
   }
   function step(dir) {
