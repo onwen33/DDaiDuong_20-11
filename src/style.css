@@ -329,6 +329,69 @@ button { font: inherit; }
 .gutter-shade.left { right: 0; background: linear-gradient(270deg, rgba(52, 38, 20, 0.30), transparent 82%); }
 .gutter-shade.right { left: 0; background: linear-gradient(90deg, rgba(52, 38, 20, 0.24), transparent 82%); }
 
+/* ---------------- TỐI ƯU LẬT TRANG 3D SIÊU MƯỢT TRÊN MOBILE (60-120 FPS) ---------------- */
+.mobile-turn-wrap {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.mobile-leaf {
+  position: absolute; top: 0; bottom: 0; width: 50%;
+  transform-style: preserve-3d;
+  will-change: transform;
+  z-index: 10;
+}
+.mobile-leaf.right {
+  left: 50%;
+  transform-origin: left center;
+}
+.mobile-leaf.left {
+  left: 0;
+  transform-origin: right center;
+}
+.mobile-leaf-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  background: #faf7f0;
+  transform-style: preserve-3d;
+}
+.mobile-leaf-face.front {
+  transform: rotateY(0deg) translateZ(1px);
+}
+.mobile-leaf-face.back {
+  transform: rotateY(180deg) translateZ(1px);
+}
+.mobile-leaf-shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(40, 28, 14, 0.42) 0%, rgba(40, 28, 14, 0.12) 30%, transparent 80%);
+  opacity: 0;
+}
+.mobile-leaf.left .mobile-leaf-shade {
+  background: linear-gradient(270deg, rgba(40, 28, 14, 0.42) 0%, rgba(40, 28, 14, 0.12) 30%, transparent 80%);
+}
+
+/* TỐI ƯU GPU CHO THIẾT BỊ DI ĐỘNG (LOẠI BỎ MULTI-PASS FILTER GÂY TỤT FRAME) */
+@media (pointer: coarse), (max-width: 900px) {
+  .sb-cast {
+    filter: none !important;
+  }
+  .sb-cast.ambient {
+    opacity: 0.22 !important;
+  }
+  .sb-cast.contact {
+    opacity: 0.18 !important;
+  }
+  .sb-cast.hair {
+    opacity: 0.12 !important;
+  }
+  .face .sh, .face .gl, .gutter-shade {
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+}
+
 /* 3D STRIPS LẬT TRANG CONG (TỐI ƯU PHẦN CỨNG GPU 60 FPS) */
 .curl {
   position: absolute; top: 0; height: 100%;

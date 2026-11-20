@@ -395,6 +395,7 @@ async function initBookApp() {
   const BETA = 0.58;
   let idx = 0, turn = null;
   let strips = [];
+  let mobileTurnState = null;
 
   const wrap = document.getElementById("sbWrap");
   const stage = document.getElementById("sbStage");
@@ -423,6 +424,38 @@ async function initBookApp() {
     d.appendChild(imgEl(i, pos));
     d.appendChild(el("div", "gutter-shade " + pos));
     return d;
+  }
+
+  // TỐI ƯU HÓA MOBILE: Khung lật 3D 1 lá duy nhất - Tăng tốc GPU phần cứng 100% không giật lag
+  function buildMobileTurn(dir, from, to) {
+    const isNext = dir === "next";
+    const wrap = el("div", "mobile-turn-wrap " + dir);
+
+    const underLeft = halfEl("left", isNext ? from : to);
+    const underRight = halfEl("right", isNext ? to : from);
+
+    const leaf = el("div", "mobile-leaf " + (isNext ? "right" : "left"));
+
+    // Mặt trước của lá lật
+    const fFace = el("div", "mobile-leaf-face front");
+    fFace.appendChild(imgEl(from, isNext ? "right" : "left"));
+    const fShade = el("div", "mobile-leaf-shade front");
+    fFace.appendChild(fShade);
+
+    // Mặt sau của lá lật
+    const bFace = el("div", "mobile-leaf-face back");
+    bFace.appendChild(imgEl(to, isNext ? "left" : "right"));
+    const bShade = el("div", "mobile-leaf-shade back");
+    bFace.appendChild(bShade);
+
+    leaf.appendChild(fFace);
+    leaf.appendChild(bFace);
+
+    wrap.appendChild(underLeft);
+    wrap.appendChild(underRight);
+    wrap.appendChild(leaf);
+
+    return { wrap, leaf, fShade, bShade, isNext };
   }
 
   function buildCurl(dir, from, to) {
@@ -456,6 +489,25 @@ async function initBookApp() {
   }
 
   function applyTurn(t) {
+    fadeCaption(t);
+
+    // Xử lý lật trang 3D siêu tốc trên Mobile
+    if (isMobile && mobileTurnState) {
+      const { leaf, fShade, bShade, isNext } = mobileTurnState;
+      const angle = isNext ? -180 * t : 180 * t;
+      leaf.style.transform = `rotateY(${angle.toFixed(2)}deg)`;
+
+      const shadeVal = Math.sin(Math.PI * t);
+      if (t < 0.5) {
+        fShade.style.opacity = (shadeVal * 0.45).toFixed(3);
+        bShade.style.opacity = "0";
+      } else {
+        fShade.style.opacity = "0";
+        bShade.style.opacity = (shadeVal * 0.45).toFixed(3);
+      }
+      return;
+    }
+
     const th = Math.PI * t;
     const beta = BETA * Math.sin(Math.PI * t);
     const D = 180 / Math.PI;
@@ -463,23 +515,20 @@ async function initBookApp() {
     sb3d.style.setProperty("--tt", (tt * D).toFixed(2) + "deg");
     sb3d.style.setProperty("--td", (td * D).toFixed(3) + "deg");
     sb3d.style.setProperty("--shade", Math.sin(Math.PI * t).toFixed(3));
-    fadeCaption(t);
-    // Trên mobile bỏ qua vòng lặp style tính toán ánh sáng từng dải để tiết kiệm 100% CPU
-    if (!isMobile) {
-      for (let i = 0; i < strips.length; i++) {
-        const l1 = Math.abs(Math.cos(tt - i * td));
-        const l2 = Math.abs(Math.cos(tt - (i + 1) * td));
-        const st = strips[i].style;
-        st.setProperty("--lit", l1.toFixed(3));
-        st.setProperty("--a1", ((1 - l1) * 0.62).toFixed(3));
-        st.setProperty("--a2", ((1 - l2) * 0.62).toFixed(3));
-      }
+    for (let i = 0; i < strips.length; i++) {
+      const l1 = Math.abs(Math.cos(tt - i * td));
+      const l2 = Math.abs(Math.cos(tt - (i + 1) * td));
+      const st = strips[i].style;
+      st.setProperty("--lit", l1.toFixed(3));
+      st.setProperty("--a1", ((1 - l1) * 0.62).toFixed(3));
+      st.setProperty("--a2", ((1 - l2) * 0.62).toFixed(3));
     }
   }
 
   function paint() {
     book.textContent = "";
     if (!turn) {
+      mobileTurnState = null;
       const f = el("div", "sb-full");
       const im = new Image();
       im.src = PAGES[idx].url;
@@ -490,9 +539,14 @@ async function initBookApp() {
       sb3d.style.setProperty("--shade", "0");
     } else {
       const next = turn.dir === "next";
-      book.appendChild(halfEl("left", next ? turn.from : turn.to));
-      book.appendChild(halfEl("right", next ? turn.to : turn.from));
-      book.appendChild(buildCurl(turn.dir, turn.from, turn.to));
+      if (isMobile) {
+        mobileTurnState = buildMobileTurn(turn.dir, turn.from, turn.to);
+        book.appendChild(mobileTurnState.wrap);
+      } else {
+        book.appendChild(halfEl("left", next ? turn.from : turn.to));
+        book.appendChild(halfEl("right", next ? turn.to : turn.from));
+        book.appendChild(buildCurl(turn.dir, turn.from, turn.to));
+      }
       applyTurn(turn.t);
     }
 
@@ -599,6 +653,18 @@ async function initBookApp() {
     spring = { kind: "tween", from: turn ? turn.t : 0, target: target, dur: dur, e: 0, done: onDone };
     kick();
   }
+  // Tối ưu Mobile: Chuyển động lật mượt mà tự nhiên không giật lắc với Cubic Ease-out
+  function tweenToEase(target, dur, onDone) {
+    spring = {
+      kind: "tweenEase",
+      from: turn ? turn.t : 0,
+      target: target,
+      dur: dur || 0.36,
+      e: 0,
+      done: onDone
+    };
+    kick();
+  }
 
   let raf = null, last = 0;
   function tick(now) {
@@ -607,7 +673,14 @@ async function initBookApp() {
     last = now;
     if (spring && turn) {
       const s = spring;
-      if (s.kind === "tween") {
+      if (s.kind === "tweenEase") {
+        s.e += dt;
+        const progress = Math.min(1, s.e / s.dur);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        turn.t = s.from + (s.target - s.from) * ease;
+        applyTurn(turn.t);
+        if (progress >= 1) { spring = null; const d = s.done; d && d(); }
+      } else if (s.kind === "tween") {
         s.e += dt;
         const k = Math.min(1, s.e / s.dur);
         turn.t = s.from + (s.target - s.from) * k;
@@ -731,7 +804,7 @@ async function initBookApp() {
 
   function startTurn(dir, t) {
     spring = null;
-    if (turn) { idx = turn.to; turn = null; }
+    if (turn) { idx = turn.to; turn = null; mobileTurnState = null; }
 
     // Dừng video đang phát và trả lại âm lượng nhạc nền khi lật trang
     const playingVid = book.querySelector("video");
@@ -747,18 +820,35 @@ async function initBookApp() {
   }
   function commit() {
     if (!turn) return;
-    if (REDUCED) { idx = turn.to; turn = null; paint(); return; }
-    animateTo(1, () => { idx = turn.to; turn = null; paint(); }, isMobile ? 210 : 170, isMobile ? 25 : 26);
+    if (REDUCED) { idx = turn.to; turn = null; mobileTurnState = null; paint(); return; }
+    if (isMobile) {
+      tweenToEase(1, 0.36, () => {
+        idx = turn.to;
+        turn = null;
+        mobileTurnState = null;
+        paint();
+      });
+    } else {
+      animateTo(1, () => { idx = turn.to; turn = null; paint(); }, 170, 26);
+    }
     kick();
   }
   function cancel() {
     if (!turn) return;
-    animateTo(0, () => { turn = null; paint(); }, isMobile ? 180 : 150, isMobile ? 24 : 24);
+    if (isMobile) {
+      tweenToEase(0, 0.28, () => {
+        turn = null;
+        mobileTurnState = null;
+        paint();
+      });
+    } else {
+      animateTo(0, () => { turn = null; paint(); }, 150, 24);
+    }
     kick();
   }
   function step(dir) {
     if (introOn) endIntro();
-    if (turn) { idx = turn.to; turn = null; }
+    if (turn) { idx = turn.to; turn = null; mobileTurnState = null; }
     startTurn(dir, 0); commit();
   }
 
