@@ -23,6 +23,14 @@ async function initBookApp() {
   }
   const teacher = TEACHERS_DATA[teacherId];
 
+  // Gửi thông tin theo dõi truy cập về Vercel Logs (IP, Tỉnh/Thành phố, Thiết bị)
+  function sendTrack(actionName = "view") {
+    try {
+      fetch(`/api/track?teacher=${encodeURIComponent(teacherId)}&action=${actionName}`).catch(() => {});
+    } catch (e) {}
+  }
+  sendTrack("view");
+
   const app = document.getElementById("app");
   app.innerHTML = `
     <div class="wash" aria-hidden="true"></div>
@@ -290,6 +298,9 @@ async function initBookApp() {
 
     // Kích hoạt chế độ Toàn Màn Hình ẩn thanh URL như chơi game
     triggerFullscreen();
+
+    // Gửi log sự kiện đã bấm mở sổ tay
+    sendTrack("open_book");
 
     bgAudio.play().then(() => {
       isMusicPlaying = true;
