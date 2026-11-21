@@ -24,12 +24,12 @@ export const TEACHERS_DATA = {
       title: "Gửi Thầy Nghiệp Kính Mến",
       date: "Ngày 20 tháng 11 năm 2026",
       body: `Đôi ba lời muốn gửi gắm đến Thầy nhân ngày kỉ niệm 20 tháng 11, có những người sẽ đi qua mùa hạ, tin rằng ánh nắng mùa hạ sẽ chẳng bao giờ tắt, tiếng ve sẽ vang vọng mãi không ngừng, hàng cây vẫn xanh lối và người cùng ta trong mùa hạ ấy sẽ mãi ở bên, nhưng rồi mùa hạ nào cũng phải khép lại, cuộc gặp gỡ nào cũng sẽ phải có hồi kết và thanh xuân, kỉ niệm ngày ấy của chúng ta gói gém trong mùa hạ ấy sẽ đi cùng với cơn gió mùa thu đem ta tới hành trình tiếp theo.`,
-      signature: "Tập thể Học trò Kính tặng Thầy Nghiệp"
+      signature: "Cùng nhìn xem lại những kỉ niệm của chúng ta..."
     },
     closingLetter: {
       title: "Lời Kết Tri Ân Thầy Nghiệp",
-      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo.`,
-      signature: "Mãi nhớ ơn Thầy Nghiệp kính yêu"
+      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, sân trường vẫn là sân trường ngày ấy, nhưng chúng ta đã khác rồi! tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo. Áo của thầy em vẫn giữ, hoa của em vẫn ở trong tủ này, hi vọng tết này vẫn còn được nhìn thấy nó, cũng là minh chứng cho đoạn tình cảm giữa  thầy trò chúng ta`,
+      signature: "Mãi nhớ về thầy"
     },
     sanTruongCaption: {
       title: "Mái Trường Xưa - Nơi Gửi Gắm Tuổi Trẻ",
@@ -88,12 +88,12 @@ export const TEACHERS_DATA = {
       title: "Gửi Cô Mến Kính Yêu",
       date: "Ngày 20 tháng 11 năm 2026",
       body: `Đôi ba lời muốn gửi gắm đến Cô nhân ngày kỉ niệm 20 tháng 11, có những người sẽ đi qua mùa hạ, tin rằng ánh nắng mùa hạ sẽ chẳng bao giờ tắt, tiếng ve sẽ vang vọng mãi không ngừng, hàng cây vẫn xanh lối và người cùng ta trong mùa hạ ấy sẽ mãi ở bên, nhưng rồi mùa hạ nào cũng phải khép lại, cuộc gặp gỡ nào cũng sẽ phải có hồi kết và thanh xuân, kỉ niệm ngày ấy của chúng ta gói gém trong mùa hạ ấy sẽ đi cùng với cơn gió mùa thu đem ta tới hành trình tiếp theo.`,
-      signature: "Tập thể Học trò Kính tặng Cô Mến"
+      signature: "Cùng nhìn xem lại những kỉ niệm của chúng ta..."
     },
     closingLetter: {
       title: "Lời Kết Tri Ân Cô Mến",
-      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo.`,
-      signature: "Mãi nhớ ơn Cô Mến kính yêu"
+      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo. Để cân bằng giữa việc gia đình và chủ nhiệm của một lớp, khi đến thăm gia đình em thấy được nhiều vất vả cũng như niềm vui của cô khi được gặp lại học trò cũ, hi vọng chúng ta sẽ cứ mãi như thế. Hẹn gặp lại cô ở tết 2027!`,
+      signature: "Kính mến cô"
     },
     sanTruongCaption: {
       title: "Sân Trường Nắng Vàng - Nơi Thơ Ca Đọng Lại",
@@ -156,8 +156,8 @@ export const TEACHERS_DATA = {
     },
     closingLetter: {
       title: "Lời Kết Tri Ân Cô Nga",
-      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo.`,
-      signature: "Mãi nhớ ơn Cô Nga kính yêu"
+      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo. Năm 2026 là một năm tiếc nuối khi chỉ được gặp cô trong vỏn vẹn vài phút ngắn ngủi, nhưng em vẫn thấy cô vẫn như ngày nào, vẫn vui tươi và tràn đầy năng lượng, hi vọng năm nay sẽ có nhiều thời gian gặp gỡ cô hơn. Hẹn gặp vào tết 2027 nhé cô!!`,
+      signature: "Gửi cô Nga thân mến "
     },
     sanTruongCaption: {
       title: "Memories Never Fade - Góc Sân Trường Dấu Yêu",
@@ -220,8 +220,8 @@ export const TEACHERS_DATA = {
     },
     closingLetter: {
       title: "Lời Kết Tri Ân Cô Hoan",
-      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo.`,
-      signature: "Mãi nhớ ơn Cô Hoan kính yêu"
+      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo. Cảm ơn cô rất nhiều về những câu chữ và tiết học ngày ấy, cũng cảm ơn cô khi đã khiến em cười nhiều đến vậy, bụi phấn bay đi nhưng cũng có lúc dừng lại, Hẹn gặp cô ở 2027 này nhé :))`,
+      signature: "Gửi cô giáo dạy vật lí `khó tính`"
     },
     sanTruongCaption: {
       title: "Khoảng Trời Kỷ Niệm - Nơi Ánh Nắng Giao Thoa",
@@ -278,8 +278,8 @@ export const TEACHERS_DATA = {
     },
     closingLetter: {
       title: "Lời Kết Tri Ân Thầy Sơn",
-      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo.`,
-      signature: "Mãi nhớ ơn Thầy Sơn kính yêu"
+      body: `Hoa có ngày nở lại, người không hai lần thiếu niên, tuổi trẻ trôi qua chóng vánh thế đấy, khí phách của thiếu niên ngày đấy là thứ không thể tái sinh, nhưng chúng ta của hiện tại sẽ trân trọng những gì đang có và từng khoảnh khắc của cuộc gặp gỡ tiếp theo. Từ những tiết học khó khăn ngày nào, thầy đồng hành cùng em như một người bạn, luôn sẵn sàng giúp đỡ, nhìn chúng em ra về với nụ cười, luôn bảo rằng cố lên, ráng giải xong đề này, dù không còn công tác ở trường, nhưng trong em thầy vẫn mãi là người thầy giáo năm ấy, Hẹn gặp thầy ở tết này nhé!! `,
+      signature: "Chương este khó thật đấy thầy "
     },
     sanTruongCaption: {
       title: "Sân Trường Trong Kỷ Niệm - Nơi Gắn Kết Tình Thầy Trò",
