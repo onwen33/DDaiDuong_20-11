@@ -152,7 +152,7 @@ export const TEACHERS_DATA = {
       title: "Gửi Cô Nga Kính Yêu",
       date: "Ngày 20 tháng 11 năm 2026",
       body: `Đôi ba lời muốn gửi gắm đến Cô nhân ngày kỉ niệm 20 tháng 11, có những người sẽ đi qua mùa hạ, tin rằng ánh nắng mùa hạ sẽ chẳng bao giờ tắt, tiếng ve sẽ vang vọng mãi không ngừng, hàng cây vẫn xanh lối và người cùng ta trong mùa hạ ấy sẽ mãi ở bên, nhưng rồi mùa hạ nào cũng phải khép lại, cuộc gặp gỡ nào cũng sẽ phải có hồi kết và thanh xuân, kỉ niệm ngày ấy của chúng ta gói gém trong mùa hạ ấy sẽ đi cùng với cơn gió mùa thu đem ta tới hành trình tiếp theo.`,
-      signature: "Tập thể Học trò Kính tặng Cô Nga"
+      signature: "Cùng nhìn xem lại những kỉ niệm của chúng ta..."
     },
     closingLetter: {
       title: "Lời Kết Tri Ân Cô Nga",
@@ -216,7 +216,7 @@ export const TEACHERS_DATA = {
       title: "Gửi Cô Hoan Kính Yêu",
       date: "Ngày 20 tháng 11 năm 2026",
       body: `Đôi ba lời muốn gửi gắm đến Cô nhân ngày kỉ niệm 20 tháng 11, có những người sẽ đi qua mùa hạ, tin rằng ánh nắng mùa hạ sẽ chẳng bao giờ tắt, tiếng ve sẽ vang vọng mãi không ngừng, hàng cây vẫn xanh lối và người cùng ta trong mùa hạ ấy sẽ mãi ở bên, nhưng rồi mùa hạ nào cũng phải khép lại, cuộc gặp gỡ nào cũng sẽ phải có hồi kết và thanh xuân, kỉ niệm ngày ấy của chúng ta gói gém trong mùa hạ ấy sẽ đi cùng với cơn gió mùa thu đem ta tới hành trình tiếp theo.`,
-      signature: "Tập thể Học trò Kính tặng Cô Hoan"
+      signature: "Cùng nhìn xem lại những kỉ niệm của chúng ta..."
     },
     closingLetter: {
       title: "Lời Kết Tri Ân Cô Hoan",
@@ -274,7 +274,7 @@ export const TEACHERS_DATA = {
       title: "Gửi Thầy Sơn Kính Mến",
       date: "Ngày 20 tháng 11 năm 2026",
       body: `Đôi ba lời muốn gửi gắm đến Thầy nhân ngày kỉ niệm 20 tháng 11, có những người sẽ đi qua mùa hạ, tin rằng ánh nắng mùa hạ sẽ chẳng bao giờ tắt, tiếng ve sẽ vang vọng mãi không ngừng, hàng cây vẫn xanh lối và người cùng ta trong mùa hạ ấy sẽ mãi ở bên, nhưng rồi mùa hạ nào cũng phải khép lại, cuộc gặp gỡ nào cũng sẽ phải có hồi kết và thanh xuân, kỉ niệm ngày ấy của chúng ta gói gém trong mùa hạ ấy sẽ đi cùng với cơn gió mùa thu đem ta tới hành trình tiếp theo.`,
-      signature: "Tập thể Học trò Kính tặng Thầy Sơn"
+      signature: "Cùng nhìn xem lại những kỉ niệm của chúng ta..."
     },
     closingLetter: {
       title: "Lời Kết Tri Ân Thầy Sơn",
